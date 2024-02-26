@@ -1,0 +1,43 @@
+.component_container
+{
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px;
+
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.component_container>div>h6
+{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: rgb(42,180,232);
+    font-size: 20px;
+    width: 100%;
+    font-weight: 800;
+}
+.component_container>div>h5
+{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: black;
+    text-align: flex-start;
+    font-size: 20px;
+    font-weight: 800;
+}
+.component_container>div
+{
+    display: flex;
+    width: 100%;
+    align-items: center;
+} 
+.Money_icon
+{
+    font-size: 35 !important;
+    color: green !important;
+}
+.reservation_icon
+{
+    font-size: 35 !important;
+    color: green !important;
+}
