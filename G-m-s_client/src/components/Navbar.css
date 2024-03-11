@@ -8,9 +8,10 @@
     display: flex;
    
     flex-direction: column;
+    position: sticky;
     padding: 10px;
     max-width: 230px;
-    background-color: white;
+    background-color: rgb(219,235,211);
     width: 100%;
     height: 100vh;
 }
@@ -42,7 +43,7 @@
     gap: 20px;
     padding: 10px;
     text-decoration: none;
-    color: black;
+    color: rgb(23,56,61);
     margin:10px auto;
     transition: 0.3s ease-in-out;
     border-radius: 3px;
@@ -72,14 +73,14 @@
     display: grid;
     place-items: center;
     justify-content: center;
-    color: rgb(42,180,232);
+    color:  rgb(23,56,61);;
    
     /* font-size: 30px !important; */
 
 }
 .bars{
     font-size: 40px !important;
-    color:black;
+    color: rgb(23,56,61);;
 }
 .nav_options:hover>.nav_icons
 {
@@ -87,7 +88,7 @@
 }
 .nav_options:hover
 {
-    background-color: rgb(71, 71, 238);
+    background-color: rgb(26, 131, 87);
     color: white;
     font-weight: 800;
 }
@@ -99,7 +100,7 @@
 
 .bars:hover
 {
-    background-color: rgb(71, 71, 238);
+    background-color: rgb(26, 131, 87);
     color: white;
     font-weight: 800;
     border-radius: 4px;
@@ -107,6 +108,7 @@
 .content-container
 {
     width: 90%;
+
 }
  .username_container
  {

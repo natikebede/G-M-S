@@ -71,10 +71,10 @@ function Loginpage() {
         <div className='container contianer_height  rounded'>
             <div className='row h-100 pt-2'>
                
-                <div className='col-sm-10 col-lg-5 mx-auto  mt-2 rounded bg-white'>
+                <div className='col-sm-10 col-lg-5 mx-auto  mt-2 rounded color-contianer'>
                     <div className='top_image_container' >
                         <div className='img_container'>
-                            <img src='../Assets/Logo.png' className='logo' alt=''/> 
+                            <img src='../Assets/gym_logo_icon.png' className='logo' alt=''/> 
                         <div className='welcome_title'>
                             <h6 > Welcome Back !</h6>
                             <h4 >Please enter your details</h4>

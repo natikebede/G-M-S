@@ -4,18 +4,15 @@ const express= require("express");
 const Db = require("./Db");
 const cors =require("cors");
 const jwt= require("jsonwebtoken");
-const cashier_routes= require('./routes/cashiers');
-const  reservation_routes= require('./routes/reservations');
-const seats_routes= require('./routes/seats');
-const trips_routes=require('./routes/trips');
-const driver_routes=require('./routes/Drivers');
-const functonal_routes=require('./routes/functional_routes')
-const Bus_routes= require('./routes/Bus')
+const membership_routes= require('./routes/Members');
+
 const port= process.env.PORT || 5002;
 const app =express();
 
 app.use(cors());
 app.use(express.json());
+
+//middel ware for authnication
 app.use((req,res,next)=>{
    
     token=req.body.token;
@@ -102,13 +99,8 @@ app.post("/",async(req,res)=>
 //middle ware
 
 
-app.use(cashier_routes)
-app.use(seats_routes);
-app.use(trips_routes);
-app.use(driver_routes);
-app.use(reservation_routes);
-app.use(functonal_routes);
-app.use(Bus_routes);
+app.use(membership_routes)
+
 
 //
 
@@ -121,7 +113,7 @@ app.post("/Login",async(req,res)=>
 {
     try {
         console.log("this is the username",req.body.username);
-        const result= await Db.query("select * from cashier where username=$1 and password=$2",[req.body.username,req.body.password]);
+        const result= await Db.query("select * from accounts where username=$1 and password=$2",[req.body.username,req.body.password]);
         const user=result.rows[0]
         const token= jwt.sign(user,process.env.TOKEN)
         res.json
@@ -147,30 +139,6 @@ app.post("/Login",async(req,res)=>
 
 
 // for searching for a bus
-app.post("/Searchbus",async(req,res)=>
-{
-    try {
-        const result= await Db.query("SELECT trips.trip_id,trips.start_location,trips.destination,trips.price,"+
-        "trips.leave_time,trips.trip_time,bus.seats,bus.bus_no FROM trips INNER JOIN bus ON bus.bus_id"+
-        " = trips.bus_id where start_location= $1 and destination=$2 ",[req.body.fromlocation,req.body.Destination])
-        res.status(200).json
-        (
-            {
-                status:"success",
-                result:result.rowCount,
-                data:{
-                    trip:result.rows
-                  
-                }
-            }
-        )
-
-        
-    } catch (error) {
-        console.log(error);
-    }
-
-});
 
  
 

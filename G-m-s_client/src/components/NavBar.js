@@ -21,7 +21,7 @@ function NavBar({children,NavItem}) {
         <div className='app_sidebar' style={{width:isopen? "230px":"50px"}}>
             <div className='top_section'>
                 <div className='logo container' style={{display:isopen? "block":"none"}}>
-                <img src='../Assets/Logo.png' className='sidebar_logo' alt=''/> 
+                <img src='../Assets/gym_logo_icon.png' className='sidebar_logo' alt=''/> 
                 </div>
                 <div style={{fontSize:isopen? "20px":"40px"}}>
                     <ListIcon onClick={toggle} className='bars'/>
