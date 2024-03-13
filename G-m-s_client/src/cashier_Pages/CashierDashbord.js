@@ -1,5 +1,5 @@
 import React, { useEffect ,useState} from 'react'
-import "./CashierDashbord.css"
+import "../Cashier_page_css/CashierDashbord.css"
 import PaidIcon from '@mui/icons-material/Paid';
 import EventSeatIcon from '@mui/icons-material/EventSeat';
 import Salescomponent from '../components/Dashbordcomponents/Salescomponent'

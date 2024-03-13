@@ -18,6 +18,7 @@ const [user_info, setInfo]= useState({
     status:"Active",
     role:"Cashier",
     gender:"Female",
+    sallery:"",
     created_date:"",
 });
 useEffect(()=>{
@@ -26,15 +27,17 @@ useEffect(()=>{
         setsuccess(false);
         set_text("");
         setdialog(false);
+      
     setInfo    ({
-        fullname:user.cashier_name,
+        fullname:user.fullname,
         username:user.username,
-        phonenumber:user.phonenumber,
+        phonenumber:user.contact_number,
         status:user.status,
         role:user.role,
+        sallery:user.sallery,
         gender:user.gender,
-        Created_date:moment(user.registration_date).format('YYYY-MM-DD'),
-        id:user.cashier_id
+        Created_date:moment(user.start_date).format('YYYY-MM-DD'),
+        id:user.emp_id
     })
     }
 
@@ -69,7 +72,7 @@ useEffect(()=>{
     if(Checkphonenumber(user_info.phonenumber))
     {
         try {
-          const response= await api.put("/cashier/edit/",{
+          const response= await api.put("/Accounts/Update",{
             info:user_info
           });
           console.log(response.data);
@@ -111,15 +114,15 @@ useEffect(()=>{
     return (
     <div>
           <Modal isOpen={modal_status} size="xl" toggle={toggle} >
-        <ModalHeader toggle={toggle}>cashier / Admin registration</ModalHeader>
-        <ModalBody>
+        <ModalHeader  className='modal_color' toggle={toggle}>cashier / Admin registration</ModalHeader>
+        <ModalBody className='modal_color'>
           <form onSubmit={onSubmits}>
           <div className='container-fluid p-2'>
             <div className='row'>
               <div className='col-sm-12 col-md-4'>
-                <img src='../Assets/bigpics.png' className='img-fluid'/>
+                <img src='../Assets/bigpics.png' className='img-fluid img-round'/>
               </div>
-              <div className='col-sm-12 col-md-8'>
+              <div className='col-sm-12 col-md-8 bg-white p-3 rounded'>
               {error_dialog && <Modals type="error" text={Error_text}/>}
               { success_dialog && <Modals type="success" text={Error_text}/>}
               <div className="mb-3 mt-3">
@@ -169,6 +172,12 @@ useEffect(()=>{
 
               </div>
               </div>
+              <div className="mb-3 mt-3">
+              <label for="email" className="form-label">sallery:</label>
+              <input type="number" className="form-control" required value={user_info.sallery} onChange={onHandelChange} id="username" placeholder="Enter Username" name="sallery"/>
+
+       
+            </div>
             <button type='submit'  className='register' >
            Update
           </button>
@@ -181,7 +190,7 @@ useEffect(()=>{
           
           </form>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className='modal_color'>
          
           <Button color="secondary" onClick={toggle}>
             Cancel

@@ -13,6 +13,7 @@ create table accounts(
   password varchar(30) not null,
   role varchar (30) not null,
   status varchar (30) not null,
+   emp_id bigserial not null,
   created_date date not null
 )
 
@@ -54,14 +55,14 @@ create table payment
 (
   paymnet_id bigserial primary key,
   membership_id bigserial not null,
-  cashier_id bigserial not null,
+   account_id bigserial not null,
   amount decimal not null,
   payment_date date not null,
  payment_type varchar(30) not null,
 
-  CONSTRAINT fk_cashier_ID
-      FOREIGN KEY(cashier_id) 
-	  REFERENCES cashier (cashier_id),
+ CONSTRAINT fk_account_ID
+      FOREIGN KEY(account_id) 
+	  REFERENCES accounts (account_id),
 
     CONSTRAINT fk_memebership_ID
       FOREIGN KEY(membership_id) 

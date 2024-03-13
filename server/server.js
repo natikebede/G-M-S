@@ -5,7 +5,7 @@ const Db = require("./Db");
 const cors =require("cors");
 const jwt= require("jsonwebtoken");
 const membership_routes= require('./routes/Members');
-
+const Accounts_routes=require('./routes/Accounts_routes');
 const port= process.env.PORT || 5002;
 const app =express();
 
@@ -100,7 +100,7 @@ app.post("/",async(req,res)=>
 
 
 app.use(membership_routes)
-
+app.use(Accounts_routes);
 
 //
 

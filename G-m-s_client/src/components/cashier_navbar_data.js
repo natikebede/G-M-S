@@ -3,7 +3,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DvrIcon from '@mui/icons-material/Dvr';
 import CommuteIcon from '@mui/icons-material/Commute';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 const NavItem=[
     {
     path:"/dashbord",
@@ -11,19 +11,19 @@ const NavItem=[
     icon:<AssessmentIcon />
     },
     {
-        path:"/Makereservation",
-        name:"Make reservation",
+        path:"/Add-Memeber",
+        name:"Add Memeber",
         icon:<AddBoxIcon />
         },
         {
             path:"/view-Reservation",
-            name:" view reservation",
+            name:" view Memebership",
             icon:<DvrIcon />
             },
             {
                 path:"/View-trips",
-                name:"View trips",
-                icon:<CommuteIcon />
+                name:"Payment reports",
+                icon:<AutoGraphIcon />
                 },
     ];
     export default NavItem;

@@ -29,6 +29,8 @@ const generateBookingId = () => {
 
 export default generateBookingId
 
+//login authentication
+
 export const Authverfication=async(dispatch,navigate)=>
 {
   
@@ -65,7 +67,7 @@ export const Authverfication=async(dispatch,navigate)=>
 export const username_validation=async(username)=>{
 
   try {
-    const response= await api.get(`/cashier/check/${username}`)
+    const response= await api.get(`/Account/check/${username}`)
  
     if(response.data.result!==0)
     {

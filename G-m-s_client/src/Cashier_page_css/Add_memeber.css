@@ -1,0 +1,14 @@
+.top_title_container
+{
+    padding: 10px;
+    display: flex;
+    background-color: rgb(219,235,211);
+    text-align: start;
+    border-radius: 10px;
+    color: rgb(42,180,232);
+}
+.default_color_container
+{
+    background-color: rgb(219,235,211);
+    color:rgb(23,56,61);
+}

@@ -43,39 +43,57 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
   const onSubmits= async(e)=>
   { e.preventDefault();
     if(Checkphonenumber(user_info.phonenumber))
-    {
-        try {
-          const response= await api.post("/cashier/Add/",{
-            info:user_info
-          });
-          console.log(response.data);
-          if(response.data.status=="fail")
-          {
-            setdialog(true);
-            set_text(response.data.error.detail)
-          }
-          else
-          {
-            setsuccess(true);
-            set_text(" User has been registerd");
-            setInfo(
-              {
-                fullname:"",
-                username:"",
-                phonenumber:"",
-                password:"123456aaAA$",
-                status:"Active",
-                role:"Cashier",
-                gender:"Female",
-                date:get_today_date(),}
-            );
-
-          }
-          
-
-        } catch (error) {
-          alert(error)
+    {       
+      username_validation(e.target.value).then(async(result)=>{
+        setdialog(result);
+        if(result==true)
+        {
+          set_text("username is already in use")
         }
+        else{
+          try {
+            const response= await api.post("/Accounts/add-account",{
+              info:user_info
+            });
+            console.log(response.data);
+            if(response.data.status=="fail")
+            {
+              setdialog(true);
+              if(response.data.error.detail=="Key (username)=(natik112) already exists.")
+              {
+                set_text("username is already in use")
+              }
+              else
+              {
+                set_text(response.data.error.detail)
+              }
+            }
+            else
+            {
+              setsuccess(true);
+              set_text(" User has been registerd");
+              setInfo(
+                {
+                  fullname:"",
+                  username:"",
+                  phonenumber:"",
+                  password:"123456aaAA$",
+                  status:"Active",
+                  role:"Cashier",
+                  gender:"Female",
+                  date:get_today_date(),}
+              );
+  
+            }
+            
+  
+          } catch (error) {
+            alert(error)
+          }
+
+        }
+      })
+
 
 
     } 
@@ -89,17 +107,19 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
 
   }
   return (
-    <div>
-          <Modal isOpen={modal_status} size="xl" toggle={toggle} >
-        <ModalHeader toggle={toggle}>cashier / Admin registration</ModalHeader>
-        <ModalBody>
+    <div className='container-fluid '>
+      <div className='row'>
+        <div className='col-sm-12'>
+        <Modal isOpen={modal_status} className='modal_color' size="xl" toggle={toggle} >
+        <ModalHeader  className='modal_color' toggle={toggle}>cashier / Admin registration</ModalHeader>
+        <ModalBody className='modal_color'>
           <form onSubmit={onSubmits}>
           <div className='container-fluid p-2'>
             <div className='row'>
               <div className='col-sm-12 col-md-4'>
                 <img src='../Assets/bigpics.png' className='img-fluid'/>
               </div>
-              <div className='col-sm-12 col-md-8'>
+              <div className='col-sm-12 col-md-8 bg-white p-3 rounded'>
               {error_dialog && <Modals type="error" text={Error_text}/>}
               { success_dialog && <Modals type="success" text={Error_text}/>}
               <div className="mb-3 mt-3">
@@ -147,7 +167,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
           
           </form>
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter className='modal_color'>
          
           <Button color="secondary" onClick={toggle}>
             Cancel
@@ -156,6 +176,9 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
         </ModalFooter>
         
       </Modal>
+        </div>
+
+      </div>
 
     </div>
   )

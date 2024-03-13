@@ -4,7 +4,7 @@ import api from "../Apis/api";
 export const  get_all_users=async()=>
 {
     try {
-        const response =await api.get("/cashier/All");
+        const response =await api.get("/Accounts/All");
         return (response.data);
     } catch (error) {
         alert( error);

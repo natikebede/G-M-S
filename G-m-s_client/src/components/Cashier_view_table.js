@@ -20,7 +20,7 @@ const [modal, setModals] = useState(false);
     });
   });
  const handelEdit=(id)=>{
-   const result= data.filter((datas)=>{return(datas.cashier_id==id)});
+   const result= data.filter((datas)=>{return(datas.emp_id==id)});
   //  console.log(result[0]);
     dispatch(Select_user(result[0]));
     Modal_toggle();
@@ -31,18 +31,19 @@ const [modal, setModals] = useState(false);
 {  
   
   return (
-    <div>
-             <input type="text" id="myInput"  className= "cv_searchbar" placeholder='Cashier name / Branch / Phone'/>
+    <div className='contianer-fluid table-responsive'>
+             <input type="text" id="myInput"  className= "cv_searchbar rounded" placeholder='Cashier name / Branch / Phone'/>
                     <table className="table table-hover table-striped">
     <thead className="table-dark">
       <tr>
         <th>Username</th>
         <th>fullname</th>
         <th>Phonenumber</th>
-        <th>Branch</th>
-        <th>status</th>
+        <th>Position</th>
+        <th>salary</th>
         <th>created Date</th>
         <th>role</th>
+        <th>status</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -50,29 +51,33 @@ const [modal, setModals] = useState(false);
         {data.map((user)=>{
 
           return(
-            <tr key={user.cashier_id} className={user.status=="Active"? "fw-bold":"table-danger"}>
+            <tr key={user.emp_id} className={user.status=="Active"? "fw-bold":"table-danger"}>
               <td>
                 {user.username}
               </td>
               <td>
-                {user.cashier_name}
+                {user.fullname}
               </td>
               <td>
-                {user.phonenumber}
+                {user.contact_number}
+              </td>
+             
+              <td>
+                {user.position}
               </td>
               <td>
-                
+                {user.sallery}
               </td>
               <td>
-                {user.status}
-              </td>
-              <td>
-                {moment(user.registration_date).format('YYYY-MM-DD')}
+                {moment(user.start_date ).format('YYYY-MM-DD')}
               </td>
               <td>
                 {user.role}
               </td>
-              <td><SaveAsIcon  className='print_icon ' onClick={()=>handelEdit(user.cashier_id)} /> <DeleteIcon className='delete_icon'/></td>
+              <td>
+                {user.status}
+              </td>
+              <td><SaveAsIcon  className='print_icon ' onClick={()=>handelEdit(user.emp_id)} /> <DeleteIcon className='delete_icon'/></td>
             </tr>
           )
 
