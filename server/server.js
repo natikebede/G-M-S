@@ -113,9 +113,27 @@ app.post("/Login",async(req,res)=>
 {
     try {
         console.log("this is the username",req.body.username);
+        console.log("this is the username",req.body.password);
         const result= await Db.query("select * from accounts where username=$1 and password=$2",[req.body.username,req.body.password]);
         const user=result.rows[0]
-        const token= jwt.sign(user,process.env.TOKEN)
+        if(result.rowCount==0)
+        {
+            res.json
+            (
+                {
+                    status:"success",
+                    result:result.rowCount,
+                    data:{
+                        user:result.rows[0],
+                        token
+                    }
+                }
+            )
+
+        }
+        else
+        {
+            const token= jwt.sign(user,process.env.TOKEN)
         res.json
         (
             {
@@ -127,6 +145,8 @@ app.post("/Login",async(req,res)=>
                 }
             }
         )
+        }
+        
         // console.log (result);
     } catch (error) {
         console.log(error);

@@ -12,3 +12,25 @@
     background-color: rgb(219,235,211);
     color:rgb(23,56,61);
 }
+ 
+.selection_details
+{
+    margin-top: 5px;
+   
+    padding: 3px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: white;
+    width: 100%;
+    text-align: center;
+    color:rgb(23,56,61);
+}
+.selection_details>span{
+    box-sizing: border-box;
+    background-color: green;
+    padding: 0px 10px;
+    border-radius: 3px;
+    width: 100%;
+    color:white
+}

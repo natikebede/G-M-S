@@ -16,7 +16,7 @@ const NavItem=[
         icon:<AddBoxIcon />
         },
         {
-            path:"/view-Reservation",
+            path:"/view-memebership",
             name:" view Memebership",
             icon:<DvrIcon />
             },

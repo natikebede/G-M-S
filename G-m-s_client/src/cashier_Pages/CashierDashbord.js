@@ -7,9 +7,8 @@ import TitleHeader from '../components/TitleHeader';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { get_mothly_sales_cashier,get_today_sales_cashier } from '../functions/counts_sales';
 import api from '../Apis/api';
-import View_reservation_table from '../components/View_reservation_table';
+import View_reservation_table from '../components/View_Membership_table';
 function CashierDashbord() {
 
   const [result,setResult]=useState();
@@ -20,12 +19,7 @@ function CashierDashbord() {
   const user= useSelector(state=>state.cashier_reducer.user);
   const navigate= useNavigate();
 
-const get_all_reservation=async()=>
-  {  
-  const response= await api.get(`/get_Allreservation_limted/${user.cashier_id}`);
-   setResult(response.data.data);
 
-  }
   useEffect(()=>{
     if(user==undefined||user==null)
     {
@@ -33,17 +27,7 @@ const get_all_reservation=async()=>
     }
     else{
       
-      get_mothly_sales_cashier(user.cashier_id).then((result)=>{
-        setThismonthreservation(result.count);
-    setThismonthsales(result.sum);
- });
- get_today_sales_cashier(user.cashier_id).then((result)=>{
-  setTodaySell(result.sum);
-setReservation(result.count);
-});
-   
-        get_all_reservation();
-       
+     
   
     }
    
@@ -67,7 +51,7 @@ setReservation(result.count);
 
         <div className='recent_container'>
           <h6> Recent reservations</h6>
-          <View_reservation_table result={result}/>
+        
         </div>
     </div>
   )

@@ -4,7 +4,7 @@ const Memberships=[
         prices:[
            {
             month:"1",
-            amount:2000,
+            amount:"2000",
            },
            {
             month:"3",
@@ -12,7 +12,7 @@ const Memberships=[
            },
            {
             month:"6",
-            amount:"11,500"
+            amount:"11500"
            }
         ],
         benefits:["Gym equipments","shower"]
@@ -24,7 +24,7 @@ const Memberships=[
            {
             
             month:"1",
-            amount:"2600",
+            amount:"2,600",
            },
            {
             month:"3",
@@ -32,7 +32,7 @@ const Memberships=[
            },
            {
             month:"6",
-            amount:"13,500"
+            amount:"13500"
            }
         ],
         benefits:["Gym equipments","shower","juice"]

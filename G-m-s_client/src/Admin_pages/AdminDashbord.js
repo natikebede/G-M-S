@@ -26,64 +26,64 @@ function AdminDashbord() {
 
   const user= useSelector(state=>state.cashier_reducer.user);
   const navigate= useNavigate();
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        if(user==undefined||user==null)
-    {
-        navigate("/");
-    }
-    else
-    {
-        get_mothly_sales().then((result)=>{
-            setGadet((prev)=>({...prev,
-                    monthly_sales:result.sum,
-                    monthly_reservations:result.count
+    //     if(user==undefined||user==null)
+    // {
+    //     navigate("/");
+    // }
+    // else
+    // {
+    //     get_mothly_sales().then((result)=>{
+    //         setGadet((prev)=>({...prev,
+    //                 monthly_sales:result.sum,
+    //                 monthly_reservations:result.count
                 
-                }))
+    //             }))
 
-     });
+    //  });
 
 
-     get_today_sales().then((result)=>{
-        setGadet((prev)=>({...prev,
-           todays_sales:result.sum,
-           todays_reservation:result.count
+    //  get_today_sales().then((result)=>{
+    //     setGadet((prev)=>({...prev,
+    //        todays_sales:result.sum,
+    //        todays_reservation:result.count
         
-        }))
+    //     }))
     
-    });
-    count_cashiers().then((result)=>{
+    // });
+    // count_cashiers().then((result)=>{
      
-        setGadet((prev)=>({...prev,
-            no_cashiers:result
+    //     setGadet((prev)=>({...prev,
+    //         no_cashiers:result
         
-        }))
-    })
+    //     }))
+    // })
 
-    count_drivers().then((result)=>{
-        setGadet((prev)=>({...prev,
-            no_drivers:result
+    // count_drivers().then((result)=>{
+    //     setGadet((prev)=>({...prev,
+    //         no_drivers:result
         
-        }))
-    })
+    //     }))
+    // })
 
-    count_bus().then((result)=>{
+    // count_bus().then((result)=>{
        
-        setGadet((prev)=>({...prev,
-            no_bus:result
+    //     setGadet((prev)=>({...prev,
+    //         no_bus:result
         
-        }))
-    })
+    //     }))
+    // })
 
 
 
-    }
+    // }
 
 
     
 
 
-    },[])
+    // },[])
 
  
   return (
