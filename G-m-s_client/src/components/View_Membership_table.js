@@ -1,19 +1,19 @@
 import React from 'react'
 import $ from 'jquery';
-import "../cashier_Pages/Viewreservations.css"
+import "../Cashier_page_css/view_membership_cashier.css"
 import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import api from '../Apis/api';
-
+import CachedIcon from '@mui/icons-material/Cached';
 import moment from "moment";
-import PrintIcon from '@mui/icons-material/Print';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Modals from './Modals';
-import { subDays } from '../functions/counts_sales';
+import { deactivate_memebership, subDays } from '../functions/counts_sales';
+import { set_selected_memeber } from '../store/Actions';
+
 function View_Membership_table({result}) {
     const dispatch= useDispatch();
     const navigate= useNavigate();
-
+    
     const passenger=useSelector(state=>state.cashier_reducer.passenger);
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
@@ -23,11 +23,24 @@ function View_Membership_table({result}) {
           });
         });
       });
+
+      // button to handel renewal
+      const handel_renewal= (membership_id)=>{
+    const memeber= result.filter((memeber)=>{
+        return memeber.membership_id==membership_id;
+    })
+
+        dispatch(set_selected_memeber(memeber[0]));
+        navigate(`/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
+      }
+
+
+
       if(  result!== undefined && result !== null && result.length !==0)
 {
   return (
-    <div>
-        <input type="text" id="myInput"  className= "rv_searchbar rounded p-3" placeholder='Memeber name / phone / Membership-ID'/>
+    <div className='table_format'>
+        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3" placeholder='Memeber name / phone / Membership-ID'/>
                     <table className="table table-hover">
     <thead className="table-dark">
       <tr>
@@ -48,6 +61,10 @@ function View_Membership_table({result}) {
         {
            result && result.map((data)=>{
             const days_left=subDays(data.end_date);
+            if(days_left<=1)
+            {
+                deactivate_memebership(data.membership_id);
+            }
                 return(
                     <tr key={data.membership_id} className={days_left<=5?"table-danger fw-bold":""}>
        
@@ -60,7 +77,7 @@ function View_Membership_table({result}) {
          <td>{moment(data.end_date).format('YYYY-MM-DD')}</td>
         <td>{data.status}</td>
         <td>{days_left}</td>
-        <td> <DeleteIcon className='delete_icon'/></td>
+        <td><CachedIcon onClick ={()=>handel_renewal(data.membership_id)} className='print_icon'/> <DeleteIcon className='delete_icon'/></td>
       </tr>
                 )
             })
@@ -76,9 +93,9 @@ else
 {
     return (
         <div>
-        <input type="text" id="myInput"  className= "rv_searchbar" placeholder='passanger name / Destination / Booking ID'/>
+        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3"placeholder='passanger name / Destination / Booking ID'/>
                     
-        <Modals type ="error" text="Sorry no reservations where found"/>
+        <Modals type ="error" text="Sorry no Memberships where found"/>
    
     </div>
     )

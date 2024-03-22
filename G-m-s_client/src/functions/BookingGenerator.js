@@ -1,5 +1,6 @@
 import api from '../Apis/api';
 import { set_user } from '../store/Actions';
+import moment from 'moment';
 const generateBookingId = () => {
     let bookingId=null; 
       const timestamp = new Date().getMilliseconds();
@@ -129,4 +130,12 @@ export const check_trip=async(trip)=>{
       console.log (error)
     }
 
+}
+export const convert_to_date=(date1)=>{
+  var currentdate =new Date (date1)
+  const format="YYYY-MM-DD";
+  const local="en-us";
+  const date= moment(currentdate).format(format);
+    return date;
+ 
 }

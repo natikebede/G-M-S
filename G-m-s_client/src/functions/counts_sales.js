@@ -1,4 +1,5 @@
 import api from "../Apis/api";
+import Memberships from "../Dummydata/DummyData";
 var currentdate = new Date(); 
 export var today = currentdate.getFullYear() + "-"
 + (currentdate.getMonth()+1)  + "-" 
@@ -123,5 +124,27 @@ export const get_today_sales_cashier=async(id)=>
             {
                 return null;
             }
+
+  }
+  // get all memebership that end on specific date range
+  export const get_all_memebership_between =async(date1,date2)=>
+  {
+    const response = await api.get(`/Memebership/Get-ALL-end/${date1}/${date2}`)
+            if (response.data.status=="success")
+            {
+                return response.data.data
+            }
+            else
+            {
+                return null;
+            }
+
+  }
+
+  //deactivate status of membership
+  export const  deactivate_memebership=async(Membership_id)=>{
+    const response = await api.put(`/Memebership/Deactivate`,{
+        Membership_id
+    })
 
   }

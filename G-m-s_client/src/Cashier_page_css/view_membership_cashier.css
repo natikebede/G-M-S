@@ -131,3 +131,42 @@
     scale:110%
 
 }
+.table_format
+{
+    max-height: 550px !important;
+    overflow-y:scroll;
+    scrollbar-width:thin;
+    scrollbar-gutter: stable both-edges;
+}
+.print_icon
+{
+    /* background-color: green !important; */
+    color: green !important;
+   border-radius: 5px;
+   font-size: 25px !important;
+   transition: 0.5 ease-in-out;
+   cursor: pointer; 
+   margin: 0px 10px;
+}
+.print_icon:Hover
+{
+    font-size: 28px !important;
+    background-color: green !important;
+    color: white!important;
+    
+}
+.delete_icon
+{
+    color: red !important;
+    border-radius: 5px;
+    font-size: 25px !important;
+    transition: 0.5 ease-in-out;
+    cursor: pointer; 
+    margin: 0px 10px;
+}
+.delete_icon:hover
+{
+    font-size: 28px !important;
+    background-color: red !important;
+    color: white!important;
+} 

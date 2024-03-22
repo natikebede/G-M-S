@@ -13,6 +13,7 @@ import Loginpage from './Loginpage.js';
 import Manage_cashier from './Admin_pages/Manage_cashier.js';
 import Add_memebers from './cashier_Pages/Add_memebers.js';
 import View_memebership from './cashier_Pages/View_memebership.js';
+import Memebership_renewal from './cashier_Pages/Memebership_renewal.js';
 function App() {
   return (
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/dashbord' element={(<NavBar NavItem={NavItem} ><CashierDashbord/></NavBar>)}/>
         <Route path='/Add-memeber' element={(<NavBar NavItem={NavItem}><Add_memebers/></NavBar>)}/>
         <Route path='/view-memebership' element={(<NavBar NavItem={NavItem}><View_memebership/></NavBar>)}/>
+        <Route path='/Memebership/renewal/:name/:id' element={(<NavBar NavItem={NavItem}> <Memebership_renewal/> </NavBar>)}/>
        
         {/* admin routes */}
 

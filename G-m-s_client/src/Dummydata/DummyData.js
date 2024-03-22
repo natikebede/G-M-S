@@ -24,7 +24,7 @@ const Memberships=[
            {
             
             month:"1",
-            amount:"2,600",
+            amount:"2600",
            },
            {
             month:"3",

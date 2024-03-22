@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import TitleHeader from '../components/TitleHeader'
 import "../Cashier_page_css/view_membership_cashier.css"
+
 import DvrIcon from '@mui/icons-material/Dvr';
 import * as XLSX from 'xlsx'
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import Modals from '../components/Modals';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { get_all_memebership } from '../functions/counts_sales';
+import { get_all_memebership, get_all_memebership_between } from '../functions/counts_sales';
 import View_Membership_table from '../components/View_Membership_table';
+import SimpleBackdrop from '../components/SimpleBackdrop';
 
 function View_memebership() {
     const [result,setResult]= useState(null);
@@ -22,14 +24,31 @@ function View_memebership() {
 //setting the memebership table data
         const set_memebership_table =()=>{
             get_all_memebership().then((response)=>{
-                console.log(response);
                 setResult(response);
             })
         }
-    const handel_submit=()=>{};
+    const handel_submit=(e)=>{
+        e.preventDefault();
+        if(filter_info.from_date!==null&& filter_info.to_date!==null){
+            setResult(null);
+            setdialog(false);
+                get_all_memebership_between(filter_info.from_date,filter_info.to_date).then(
+                    (res)=>{
+                        setResult(res);
+                    }
+                )
+        }
+        else{
+                setdialog(true);
+                set_text("Please Enter Both Dates to apply Filter");
+        }
+    };
+    
 
  // handel refersh
     const handelrefresh=()=>{
+        setResult(null);
+       
         set_memebership_table();
     };
 
@@ -69,10 +88,12 @@ function View_memebership() {
                 <div className='cv_searchbar_container '>
 
                 <div className=' row '>
+                {error_dialog && <Modals type="error" text={Error_text}/>}
+
                   <form className=' col-sm-9 ' onSubmit={handel_submit}>
                   <div className='row'>
 
-                
+                  
                   <div  className='col-sm-12 col-md-4'>
                     <label className='fw-bolder'>From:</label>
                     <input className='form-control' type="date" value={filter_info.from_date}onChange={onhandelChange} name="from_date"/>
@@ -97,8 +118,9 @@ function View_memebership() {
                 </div> 
                 </div>
                 
-
-                <View_Membership_table result={result}/>
+                <div className='col-sm-12'>
+              { result? <View_Membership_table result={result}/>:<SimpleBackdrop/>}
+              </div>
                   </div>
                 </div>
                 </div>
