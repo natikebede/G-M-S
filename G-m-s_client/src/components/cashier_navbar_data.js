@@ -21,7 +21,7 @@ const NavItem=[
             icon:<DvrIcon />
             },
             {
-                path:"/View-trips",
+                path:"/Payment-reports",
                 name:"Payment reports",
                 icon:<AutoGraphIcon />
                 },

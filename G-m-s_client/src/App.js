@@ -14,6 +14,7 @@ import Manage_cashier from './Admin_pages/Manage_cashier.js';
 import Add_memebers from './cashier_Pages/Add_memebers.js';
 import View_memebership from './cashier_Pages/View_memebership.js';
 import Memebership_renewal from './cashier_Pages/Memebership_renewal.js';
+import Payment_reports from './cashier_Pages/Payment_reports.js';
 function App() {
   return (
 
@@ -25,6 +26,8 @@ function App() {
         <Route path='/Add-memeber' element={(<NavBar NavItem={NavItem}><Add_memebers/></NavBar>)}/>
         <Route path='/view-memebership' element={(<NavBar NavItem={NavItem}><View_memebership/></NavBar>)}/>
         <Route path='/Memebership/renewal/:name/:id' element={(<NavBar NavItem={NavItem}> <Memebership_renewal/> </NavBar>)}/>
+        <Route path='/Payment-reports' element={(<NavBar NavItem={NavItem}> <Payment_reports/>  </NavBar>)}/>
+       
        
         {/* admin routes */}
 
