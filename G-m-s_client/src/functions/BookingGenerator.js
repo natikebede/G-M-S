@@ -39,13 +39,13 @@ export const Authverfication=async(dispatch,navigate)=>
     const response= await api.post("/",{
      token:localStorage.token
     })
-    
+    console.log(response);
    if(response.data.auth)
    {
-    dispatch(set_user(response.data.user));
-    if (response.data.user.role=="Cashier")
+    dispatch(set_user(response.data.user.user));
+    if (response.data.user.user.role=="Cashier")
         { navigate("/dashbord");}
-   else if(response.data.user.role=="Admin")
+   else if(response.data.user.user.role=="Admin")
    {
           navigate("/Admin__dashbord");
    }

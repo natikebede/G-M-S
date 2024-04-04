@@ -185,7 +185,7 @@ function Memebership_renewal() {
     <div className='container-fluid  p-4'>
     <div className='row default_color_container rounded p-3'>
 
-    <div className='col-sm-12 col-md-4 p-3 '>
+    <div className='col-sm-12 col-md-5 p-3 '>
                    <div className='row'>
                    <h5 className='text-center'>Current Benefits</h5>
                    <ul class="list-group fw-bolder list-group-flush rounded default_color_container ">
@@ -285,7 +285,7 @@ function Memebership_renewal() {
         </div>
 
 
-    <div className='col-sm-12 col-md-8 p-4 bg-white rounded'>
+    <div className='col-sm-12 col-md-7 p-4 bg-white rounded'>
                     <form  onSubmit={update_profile}>
                     {error_dialog && <Modals type="error" text={Error_text}/>}
               { success_dialog && <Modals type="success" text={Error_text}/>}

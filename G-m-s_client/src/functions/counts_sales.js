@@ -1,3 +1,4 @@
+import { alignProperty } from "@mui/material/styles/cssUtils";
 import api from "../Apis/api";
 import Memberships from "../Dummydata/DummyData";
 var currentdate = new Date(); 
@@ -25,11 +26,12 @@ export function addDays(date, Month) {
         return Difference_In_Days;
   }
 
-export const get_today_sales_cashier=async(id)=>
+  // get todays sales
+export const get_today_sales_cashier=async(id,type)=>
   {
    
-    const response= await api.get(`/get_all_sales_today/${id}/${today}`);
-   
+    const response= await api.get(`/Payments/today-sales/${id}/${today}/${type}`);
+
     if(response.data.data[0].sum!==null)
     {
         return response.data.data[0];
@@ -51,7 +53,7 @@ export const get_today_sales_cashier=async(id)=>
     + "01";
   const response= await api.get(`/get_all_sales_thismonth/${id}/${today}/${firtDateofMOnth}`);
   
-    
+    console.log(response);
   if(response.data.data[0].sum!==null)
   { 
       return response.data.data[0];
@@ -147,4 +149,35 @@ export const get_today_sales_cashier=async(id)=>
         Membership_id
     })
 
+  }
+
+
+  // get all payments_reports for specfic cashier
+
+  export const get_payment_reports_cashier = async (account_id)=>{
+    const response =await api.get(`/Payments/Get-ALL/${account_id}`);
+   
+    if(response.data.status=="success"){
+        return response.data.data
+    }
+    else{
+
+        return null
+    }
+  }
+
+  //generate report based on filter parametrs fro the cashier
+
+  export const get_payment_reports_filtered = async (filter_info,account_id)=>{
+    const response =await api.post(`/Payments/Get-ALL/filterd/${account_id}`,{
+        filter_info
+    });
+   
+    if(response.data.status=="success"){
+        return response.data.data
+    }
+    else{
+
+        return null
+    }
   }

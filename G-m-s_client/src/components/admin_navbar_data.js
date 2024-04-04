@@ -1,6 +1,7 @@
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DvrIcon from '@mui/icons-material/Dvr';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import CommuteIcon from '@mui/icons-material/Commute';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
@@ -16,20 +17,16 @@ const Admin_NavItem=[
         name:"Cashiers",
         icon:<PersonAddAltIcon />
         },
-    {
-        path:"/Create_trip",
-        name:"Trips",
-        icon:<AddBoxIcon />
-        },
         {
-            path:"/All-Reservation",
-            name:" Reservation",
+            path:"/Admin/view-memebership",
+            name:" view Memebership",
             icon:<DvrIcon />
             },
+      
             {
-                path:"/Bus",
-                name:"Add Bus",
-                icon:<DirectionsBusIcon />
+                path:"/Admin/Payment-reports",
+                name:"Payment reports",
+                icon:<AutoGraphIcon />
                 },
                 {
                     path:"/Drivers",

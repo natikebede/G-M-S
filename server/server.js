@@ -1,11 +1,14 @@
 
 require('dotenv').config();
 const express= require("express");
-const Db = require("./Db");
+const mysql= require("mysql");
+
 const cors =require("cors");
 const jwt= require("jsonwebtoken");
 const membership_routes= require('./routes/Members');
 const Accounts_routes=require('./routes/Accounts_routes');
+const Payment_routes=require('./routes/Payments');
+const { pool } = require('./Db');
 const port= process.env.PORT || 5002;
 const app =express();
 
@@ -101,6 +104,7 @@ app.post("/",async(req,res)=>
 
 app.use(membership_routes)
 app.use(Accounts_routes);
+app.use(Payment_routes);
 
 //
 
@@ -111,41 +115,84 @@ app.use(Accounts_routes);
 // for cashier login
 app.post("/Login",async(req,res)=>
 {
+   
     try {
-        console.log("this is the username",req.body.username);
-        console.log("this is the username",req.body.password);
-        const result= await Db.query("select * from accounts where username=$1 and password=$2",[req.body.username,req.body.password]);
-        const user=result.rows[0]
-        if(result.rowCount==0)
-        {
-            res.json
-            (
-                {
-                    status:"success",
-                    result:result.rowCount,
-                    data:{
-                        user:result.rows[0],
-                        token
+       
+      const [result]  =await pool.query ("select * from accounts where username=? and password=?",[req.body.username,req.body.password])
+             
+                    const user= result[0];
+                    console.log(result)
+                    if(result.length==0)
+                    {
+                        req.send
+                        (
+                            {
+                                status:"success",
+                                result:result.length,
+                                data:{
+                                    user:result[0],
+                                    token
+                                }
+                            }
+                        )
+            
                     }
-                }
-            )
+                    else
+                    {
+                        const token= jwt.sign({user},process.env.TOKEN)
+                        res.status(200).json
+                        (
+                            {
+                                status:"success",
+                                result:result.length,
+                                data:{
+                                    user:result[0],
+                                    token
+                                }
+                            }
+                        )
+                    }
+    
+                
+  
+       
 
-        }
-        else
-        {
-            const token= jwt.sign(user,process.env.TOKEN)
-        res.json
-        (
-            {
-                status:"success",
-                result:result.rowCount,
-                data:{
-                    user:result.rows[0],
-                    token
-                }
-            }
-        )
-        }
+
+
+   
+    //    const test1= await Db.pool.query("select * from accounts where username=? and password=?",[req.body.username,req.body.password])
+      
+        // const user= result[0];
+        // if(result.length==0)
+        // {
+        //     res.json
+        //     (
+        //         {
+        //             status:"success",
+        //             result:result.length,
+        //             data:{
+        //                 user:result[0],
+        //                 token
+        //             }
+        //         }
+        //     )
+
+        // }
+        // else
+        // {
+        //     const token= jwt.sign(user,process.env.TOKEN)
+        // res.json
+        // (
+        //     {
+        //         status:"success",
+        //         result:result.length,
+        //         data:{
+        //             user:result[0],
+        //             token
+        //         }
+        //     }
+        // )
+        // }
         
         // console.log (result);
     } catch (error) {

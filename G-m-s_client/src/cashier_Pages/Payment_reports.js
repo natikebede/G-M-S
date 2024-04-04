@@ -8,11 +8,14 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import Modals from '../components/Modals';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
-
+import { useSelector } from 'react-redux';
 import SimpleBackdrop from '../components/SimpleBackdrop';
+import View_payment_reports from '../components/View_payment_reports';
+import { get_payment_reports_cashier, get_payment_reports_filtered } from '../functions/counts_sales';
 
 
 function Payment_reports() {
+    const account= useSelector(state=>state.cashier_reducer.user);
     const [result,setResult]= useState(null);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
@@ -23,33 +26,64 @@ function Payment_reports() {
         });
 
         const set_payment_table =()=>{
-         
+            get_payment_reports_cashier(account.account_id).then((res)=>{
+               
+                setResult(res);
+            })
+           
         }
         const handel_submit=(e)=>{
             e.preventDefault();
+            console.log(filter_info);
+            if(filter_info.from_date==null && filter_info.to_date==null && filter_info.type==null)
+            {
+                set_text("Please set filter paramenters");
+                setdialog(true);
+                
+            }
+            else if ((filter_info.from_date==null && filter_info.to_date!==null && filter_info.type==null)||(filter_info.from_date==null && filter_info.to_date!==null && filter_info.type!==null))
+            {
+                set_text("Please Make sure start date is selected first");
+                setdialog(true);
+            }
+            else{
+                setdialog(false);
+                get_payment_reports_filtered(filter_info,account.account_id).then((res)=>{
+               
+                    setResult(res);
+                })
             
-        };
+        }
+    }
         const handelrefresh=()=>{
-            
+            setdialog(false);
+            set_payment_table();
         };
         const onhandelChange=(e)=>{
- 
-            setinfo(
+                if([e.target.name]=="type" && [e.target.value]=="Payment Type")
+                {
+                    setinfo(
+                        (prev)=>({
+                            ...prev,
+                            type:null,
+                        }));
+                }
+           else {setinfo(
                 (prev)=>({
                     ...prev,
                     [e.target.name]:e.target.value,
-                }));
+                }));}
            };
            //to handel export of data
            const handlonExport=()=>{
             var wb= XLSX.utils.book_new();
             var ws=XLSX.utils.json_to_sheet(result);
-            XLSX.utils.book_append_sheet(wb,ws,"Memebers");
+            XLSX.utils.book_append_sheet(wb,ws,"payment Reports");
             XLSX.writeFile(wb,"MyExcel.xlsx")
         
            };
            useEffect(()=>{
-            
+            set_payment_table();
             
            },[])
   return (
@@ -85,8 +119,8 @@ function Payment_reports() {
               <label className='fw-bolder'>To :</label>
               <select className="form-select" required value={filter_info.type} onChange={onhandelChange} name='type'>
                   <option>Payment Type</option>
-                  <option>Male</option>
-                  <option>Female</option>
+                  <option>Renewal</option>
+                  <option>registration</option>
                 </select>
               </div>
               <div className=' col-sm-12 col-md-3 py-3'>
@@ -105,7 +139,8 @@ function Payment_reports() {
             </div>
             
             <div className='col-sm-12'>
-          {/* { result? <View_Membership_table result={result}/>:<SimpleBackdrop/>} */}
+                {/* <View_payment_reports result={result} /> */}
+          { result? <View_payment_reports result={result}/>:<SimpleBackdrop/>}
           </div>
               </div>
             </div>

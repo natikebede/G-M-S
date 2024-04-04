@@ -11,10 +11,10 @@ import { deactivate_memebership, subDays } from '../functions/counts_sales';
 import { set_selected_memeber } from '../store/Actions';
 
 function View_Membership_table({result}) {
+  const user= useSelector(state=>state.cashier_reducer.user);
+  console.log(user);
     const dispatch= useDispatch();
     const navigate= useNavigate();
-    
-    const passenger=useSelector(state=>state.cashier_reducer.passenger);
     $(document).ready(function(){
         $("#myInput").on("keyup", function() {
           var value = $(this).val().toLowerCase();
@@ -31,8 +31,16 @@ function View_Membership_table({result}) {
     })
 
         dispatch(set_selected_memeber(memeber[0]));
+        if(user.role=="Cashier")
+       { 
         navigate(`/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
-      }
+        }  
+        else
+        {
+          navigate(`/Admin/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
+      
+        }
+  }
 
 
 
