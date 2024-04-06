@@ -6,24 +6,28 @@ import Cashier_view_table from '../components/Cashier_view_table';
 import Add_Cashier_modal from './Add_Cashier_modal';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { get_all_users } from '../functions/admin_functions';
+import SimpleBackdrop from '../components/SimpleBackdrop'
+import RefreshIcon from '@mui/icons-material/Refresh';
+
 import * as XLSX from 'xlsx'
-import { get } from 'jquery';
+
 function Manage_cashier() {
     const [modal, setModals] = useState(false);
     const [users,setUsers]=useState([]);
   
     useEffect(()=>{
 //    
-            setInterval(()=>{
-
-                get_all_users().then((res)=>{
-                   setUsers(res.data);
-                })
-            },
-            5000
-            );
+        get_all_users().then((res)=>{
+            setUsers(res.data);
+        })
 
     },[])
+    const handelrefresh=()=>{
+        setUsers(null);
+        get_all_users().then((res)=>{
+            setUsers(res.data);
+        })
+    };
 
     const Modal_toggle = () => {
         setModals(!modal);}
@@ -48,12 +52,16 @@ function Manage_cashier() {
                 <div className='cv_searchbar_container row'>
                     <div className='add_cashier_button_container'>
                         <button className='add_cashier_button' onClick={Modal_toggle}> <PersonAddAltIcon/> Add Cashier/Admin</button>
+                        <div  className='col-sm-3 d-flex justify-content-around '>
+                        <button className='refresh_button flex-shrink-1 mx-2'onClick={handelrefresh}><RefreshIcon/> Refresh  </button>
                         <button className='export_button' onClick={handlonExport} > <ImportExportIcon/> Export</button>
+
+                </div> 
                     </div>
 
                     <Add_Cashier_modal  modal_status ={modal} Modal_toggle={Modal_toggle}/>
                    
-                 <Cashier_view_table data={users}/>
+                    { users ? <Cashier_view_table data={users}/>:<SimpleBackdrop/> }
                 </div>
       
 

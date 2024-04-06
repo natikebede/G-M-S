@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react'
 import TitleHeader from '../components/TitleHeader'
 import "../Cashier_page_css/payment_report.css"
@@ -14,9 +13,10 @@ import View_payment_reports from '../components/View_payment_reports';
 import { get_payment_reports_cashier, get_payment_reports_filtered } from '../functions/counts_sales';
 
 
-function Payment_reports() {
-    const account= useSelector(state=>state.cashier_reducer.user);
-    const [result,setResult]= useState(null);
+
+function Admin_payment_report() {
+  const [result,setResult]= useState(null);
+  const account= useSelector(state=>state.cashier_reducer.user);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
         const[filter_info,setinfo]= useState({
@@ -47,7 +47,6 @@ function Payment_reports() {
                 setdialog(true);
             }
             else{
-                setResult(null);
                 setdialog(false);
                 get_payment_reports_filtered(filter_info,account.account_id).then((res)=>{
                
@@ -57,7 +56,6 @@ function Payment_reports() {
         }
     }
         const handelrefresh=()=>{
-            setResult(null);
             setdialog(false);
             set_payment_table();
         };
@@ -151,4 +149,4 @@ function Payment_reports() {
   )
 }
 
-export default Payment_reports
+export default Admin_payment_report
