@@ -12,6 +12,7 @@ import { set_selected_memeber } from '../store/Actions';
 
 function View_Membership_table({result}) {
   const user= useSelector(state=>state.cashier_reducer.user);
+
   console.log(user);
     const dispatch= useDispatch();
     const navigate= useNavigate();
@@ -84,7 +85,7 @@ function View_Membership_table({result}) {
          <td>{moment(data.start_date).format('YYYY-MM-DD')}</td>
          <td>{moment(data.end_date).format('YYYY-MM-DD')}</td>
         <td>{data.status}</td>
-        <td>{days_left}</td>
+        <td>{parseInt(days_left)}</td>
         <td><CachedIcon onClick ={()=>handel_renewal(data.membership_id)} className='print_icon'/> <DeleteIcon className='delete_icon'/></td>
       </tr>
                 )
