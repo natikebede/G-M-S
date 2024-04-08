@@ -29,8 +29,8 @@ const Admin_NavItem=[
                 icon:<AutoGraphIcon />
                 },
                 {
-                    path:"/Drivers",
-                    name:"Driver",
+                    path:"/Employee",
+                    name:"HR",
                     icon:<PersonAddAltIcon />
                     },
     ];
