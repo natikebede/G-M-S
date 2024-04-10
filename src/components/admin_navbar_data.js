@@ -6,6 +6,7 @@ import CommuteIcon from '@mui/icons-material/Commute';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 const Admin_NavItem=[
     {
     path:"/Admin__dashbord",
@@ -33,5 +34,10 @@ const Admin_NavItem=[
                     name:"HR",
                     icon:<PersonAddAltIcon />
                     },
+                    {
+                        path:"/Membership-configration",
+                        name:"configration",
+                        icon:<SettingsSuggestIcon/>
+                        },
     ];
     export default Admin_NavItem ;

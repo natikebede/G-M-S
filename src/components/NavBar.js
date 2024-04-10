@@ -17,8 +17,8 @@ function NavBar({children,NavItem}) {
     
   }
   return (
-    <div className='app_contianer'>
-        <div className='app_sidebar' style={{width:isopen? "230px":"50px"}}>
+    <div className='container-fluid p-0 d-flex'>
+        <div className='app_sidebar ' style={{width:isopen? "230px":"50px"}}>
             <div className='top_section'>
                 <div className='logo container' style={{display:isopen? "block":"none"}}>
                 <img src='../Assets/gym_logo_icon.png' className='sidebar_logo' alt=''/> 
