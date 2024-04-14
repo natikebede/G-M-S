@@ -299,8 +299,10 @@ function Memebership_renewal() {
 
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Phonenumber:</label>
-              <input disabled={edit_data} type="Text" className="form-control" required value={user_info.contact_number} onChange={onHandelChange_profile} id="phonenumber" placeholder="+251" name="contact_number"/>
-              
+              <div class="input-group">
+                <span class="input-group-text fw-bold">+251</span>
+              <input disabled={edit_data} type="tel" className="form-control" required value={user_info.contact_number} onChange={onHandelChange_profile} id="phonenumber" placeholder="+251" name="contact_number"/>
+              </div>
             </div>
              <div className="row mb-3 mt-3">
              <div className="col">

@@ -8,3 +8,4 @@ export const Add_user="ADD_USER";
 // admin actions
 export const  set_Admin_user="SET_ADMIN_USER";
 export const   set_selected_user="SET_SELECTED_USER"
+export const   set_selected_emp="SET_SELECTED_EMP"

@@ -17,6 +17,8 @@ import Memebership_renewal from './cashier_Pages/Memebership_renewal.js';
 import Payment_reports from './cashier_Pages/Payment_reports.js';
 import Admin_view_Membership from './Admin_pages/Admin_view_Membership.js';
 import Admin_payment_report from './Admin_pages/Admin_payment_report.js';
+import Hr_management from './Admin_pages/Hr_management.js';
+import Edit_Employee from './Admin_pages/Edit_Employee.js';
 function App() {
   return (
 
@@ -40,6 +42,9 @@ function App() {
         <Route path="/Admin/view-memebership" element={(<NavBar NavItem={Admin_NavItem}><Admin_view_Membership/> </NavBar>)}/>
         <Route path='/Admin/Memebership/renewal/:name/:id' element={(<NavBar NavItem={Admin_NavItem}> <Memebership_renewal/> </NavBar>)}/>
         <Route path='/Admin/Payment-reports' element={(<NavBar NavItem={Admin_NavItem}> <Admin_payment_report/> </NavBar>)}/>
+        <Route path='/Hr-Management' element={(<NavBar NavItem={Admin_NavItem}> <Hr_management/> </NavBar>)}/>
+        <Route path='/Admin/Employe/Edit/:emp_id' element={(<NavBar NavItem={Admin_NavItem}> <Edit_Employee/> </NavBar>)}/>
+
        
       </Routes>  
     </div>

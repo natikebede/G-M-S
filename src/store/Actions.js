@@ -56,7 +56,12 @@ export const Select_user=(user)=>{
    }
 }
 
-
+export const  select_employee=(user)=>{
+   return{
+      type:acTypes.set_selected_emp,
+      payload:user
+   }
+}
 
 
 

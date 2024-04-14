@@ -65,3 +65,29 @@ export const admin_get_payment_reports_filtered = async (filter_info)=>{
       
     }
   }
+
+  export const get_number_of_employee=async()=>{
+
+    const response= await api.get("/Employee/Get-ALL/Count");
+    if (response.data.status=="success"){
+           return response.data.data
+            
+
+    }
+    else{
+        alert("error while retriving data")
+    }
+  }
+  export const get_all_employee=async()=>{
+    const response= await api.get("/Employee/Get-ALL");
+    if (response.data.status=="success"){
+        return response.data.data
+         
+
+ }
+ else{
+     alert("error while retriving data")
+ }
+
+
+  }

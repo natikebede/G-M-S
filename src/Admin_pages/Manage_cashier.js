@@ -31,11 +31,13 @@ function Manage_cashier() {
 
     const Modal_toggle = () => {
         setModals(!modal);}
+
+        // handel export of data
         const handlonExport=()=>
         {
             var wb= XLSX.utils.book_new();
            var ws=XLSX.utils.json_to_sheet(users);
-           XLSX.utils.book_append_sheet(wb,ws,"users");
+           XLSX.utils.book_append_sheet(wb,ws,"Account users");
            XLSX.writeFile(wb,"MyExcel.xlsx")
 
         }

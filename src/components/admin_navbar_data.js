@@ -2,10 +2,9 @@
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DvrIcon from '@mui/icons-material/Dvr';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
-import CommuteIcon from '@mui/icons-material/Commute';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 const Admin_NavItem=[
     {
@@ -30,9 +29,9 @@ const Admin_NavItem=[
                 icon:<AutoGraphIcon />
                 },
                 {
-                    path:"/Employee",
+                    path:"/Hr-Management",
                     name:"HR",
-                    icon:<PersonAddAltIcon />
+                    icon:<PeopleAltIcon />
                     },
                     {
                         path:"/Membership-configration",

@@ -8,7 +8,7 @@ import api from '../Apis/api';
 import { useSelector } from 'react-redux';
 function Edit_user_modal({modal_status,Modal_toggle}) {
     const user=useSelector(state=>state.admin_reducer.selected_user);
-    console.log("here are the users",user);
+  
 
 const [user_info, setInfo]= useState({
     fullname:"",
@@ -79,10 +79,11 @@ useEffect(()=>{
           if(response.data.status=="fail")
           {
             setdialog(true);
+            setsuccess(false);
             set_text(response.data.error.detail)
           }
           else
-          {
+          { setdialog(false);
             setsuccess(true);
             set_text(" User has been updated");
           
@@ -132,8 +133,10 @@ useEffect(()=>{
 
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Phonenumber:</label>
-              <input type="Text" className="form-control" required value={user_info.phonenumber} onChange={onHandelChange} id="phonenumber" placeholder="+251" name="phonenumber"/>
-              
+              <div class="input-group">
+                <span class="input-group-text fw-bold">+251</span>
+              <input type="tel" className="form-control" required value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
+              </div>
             </div>
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Username:</label>

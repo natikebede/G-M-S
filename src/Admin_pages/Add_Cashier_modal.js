@@ -3,11 +3,12 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Checkphonenumber, get_today_date, username_validation } from '../functions/BookingGenerator';
 import Modals from '../components/Modals';
 import api from '../Apis/api';
-
+import { useSelector } from 'react-redux'
 function Add_Cashier_modal({modal_status,Modal_toggle}) {
    
     const [success_dialog, setsuccess]=useState(false);
     const [error_dialog ,setdialog]= useState(false);
+    const account= useSelector(state=>state.cashier_reducer.user);
     const [Error_text,set_text]=useState("");
     const [user_info, setInfo]= useState({
           fullname:"",
@@ -18,9 +19,11 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
           role:"Cashier",
           gender:"Female",
           date:get_today_date(),
+          id:account.account_id
 
     });
   const toggle = () => Modal_toggle();
+  
   const onHandelChange=(e)=>{
     setInfo( (prev)=>({
       ...prev,
@@ -59,7 +62,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
             if(response.data.status=="fail")
             {
               setdialog(true);
-              if(response.data.error.detail=="Key (username)=(natik112) already exists.")
+              if(response.data.error.detail==`Key (username)=(${user_info.username}) already exists"`)
               {
                 set_text("username is already in use")
               }
@@ -129,8 +132,10 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
 
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Phonenumber:</label>
-              <input type="Text" className="form-control" required value={user_info.phonenumber} onChange={onHandelChange} id="phonenumber" placeholder="+251" name="phonenumber"/>
-              
+              <div class="input-group">
+                <span class="input-group-text fw-bold">+251</span>
+              <input type="tel" className="form-control" required value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
+              </div>
             </div>
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Username:</label>
