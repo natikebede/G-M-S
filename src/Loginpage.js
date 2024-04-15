@@ -15,6 +15,7 @@ function Loginpage() {
   const navigate= useNavigate();
   const dispatch= useDispatch();
   const [modal,setModals]=useState(false);
+  const [tokens,setToken]=useState(null)
   
   
  useEffect(()=>{
@@ -45,10 +46,12 @@ function Loginpage() {
             dispatch(set_user(response.data.data.user));
             setAlert(false);
             if(response.data.data.user.activation=="inactive")
-            { localStorage.setItem("token",token);
+            { 
+              setToken(token);
               Modal_toggle();
             }else
             {
+              localStorage.setItem("token",token);
               navigate("/dashbord");
             }
             // navigate("/dashbord");
@@ -58,10 +61,12 @@ function Loginpage() {
             dispatch(set_user(response.data.data.user));
             setAlert(false);
             if(response.data.data.user.activation=="inactive")
-            {
-                Modal_toggle();
+            {     setToken(token);
+              Modal_toggle();
+              
             }else
             {
+              localStorage.setItem("token",token);
               navigate("/Admin__dashbord");
             }
             // navigate("/Admin__dashbord");
@@ -123,7 +128,7 @@ function Loginpage() {
                         <button type="submit" className=" Login_btn" >Log in</button>
                   </form>
                     
-      <Password_change_modal modal_status ={modal} Modal_toggle={Modal_toggle} />
+      <Password_change_modal modal_status ={modal} Modal_toggle={Modal_toggle} token={tokens}/>
                     </div>
                     
                 </div>

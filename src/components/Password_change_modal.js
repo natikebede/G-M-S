@@ -7,7 +7,7 @@ import {  useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { check_password_match } from '../functions/BookingGenerator';
 import api from '../Apis/api';
-function Password_change_modal({modal_status,Modal_toggle}) {
+function Password_change_modal({modal_status,Modal_toggle,token}) {
     const user= useSelector(state=>state.cashier_reducer.user);
     const [success_dialog, setsuccess]=useState(false);
     const [error_dialog ,setdialog]= useState(false);
@@ -64,9 +64,9 @@ function Password_change_modal({modal_status,Modal_toggle}) {
 
                     if (response.data.status=="success"){
                         setsuccess(true);
+                        localStorage.setItem("token",token);
                         set_text("Password change successful")
-                       
-                            navigate("/");
+                        navigate("/");
                         
                     }
                     else{
@@ -91,14 +91,14 @@ function Password_change_modal({modal_status,Modal_toggle}) {
   return (
     <div className='container-fluid'>
                   <Modal isOpen={modal_status} size="xl" toggle={toggle} >
-        <ModalHeader  className='modal_color' toggle={toggle}>Change Password</ModalHeader>
+        <ModalHeader  className='modal_color text-center ' toggle={toggle}><p className='w-100 text-center'> Change Password</p></ModalHeader>
         <ModalBody className='modal_color'>
        
           <form onSubmit={onSubmit}>
           <div className='container-fluid p-2'>
             <div className='row'>
               <div className='col-sm-12 col-md-4'>
-                <img src='../Assets/bigpics.png' className='img-fluid img-round'/>
+                <img src='../Assets/forgot-password.png' className='img-fluid img-round'/>
               </div>
               <div className='col-sm-12 col-md-8 bg-white p-3 rounded'>
               {error_dialog && <Modals type="error" text={Error_text}/>}
@@ -132,10 +132,12 @@ function Password_change_modal({modal_status,Modal_toggle}) {
               </div>
             </div>
 
-        
+            <div className='row p-3'>
             <button type='submit'  className='register' >
-           Update
+           Confirm
           </button>
+            </div>
+           
               
               </div>
 
@@ -148,7 +150,7 @@ function Password_change_modal({modal_status,Modal_toggle}) {
         <ModalFooter className='modal_color'>
          
           <Button color="secondary" onClick={toggle}>
-            Cancel
+            Done
           </Button>
         
         </ModalFooter>
