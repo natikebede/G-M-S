@@ -1,15 +1,23 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Checkphonenumber, convert_to_date, get_today_date, username_validation } from '../functions/BookingGenerator';
 import Modals from '../components/Modals';
 import api from '../Apis/api';
 import { useSelector } from 'react-redux'
-
+import { useNavigate } from 'react-router-dom';
 function Add_Employe_Modal({modal_status,Modal_toggle}) {
     const [success_dialog, setsuccess]=useState(false);
     const [error_dialog ,setdialog]= useState(false);
+    const navigate= useNavigate();
     const [Error_text,set_text]=useState("");
     const account= useSelector(state=>state.cashier_reducer.user);
+    useEffect(()=>{
+        if(account==null||undefined)
+        return  navigate("/");
+       
+       
+       
+       },[])
     const [user_info, setInfo]= useState({
 
         fullname:"",
@@ -20,7 +28,7 @@ function Add_Employe_Modal({modal_status,Modal_toggle}) {
         sallery:"",
         start_date:convert_to_date(get_today_date()),
         bank_account:"",
-        created_by:account.account_id
+        created_by:account?.account_id
        
     });
     const toggle = () => Modal_toggle();

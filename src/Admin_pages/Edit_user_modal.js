@@ -88,7 +88,7 @@ useEffect(()=>{
           else
           { setdialog(false);
             setsuccess(true);
-            set_text(" User has been updated");
+            set_text(" User has been updated and please referesh to see updated information");
           
 
           }

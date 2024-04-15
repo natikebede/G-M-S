@@ -8,19 +8,26 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { get_all_users } from '../functions/admin_functions';
 import SimpleBackdrop from '../components/SimpleBackdrop'
 import RefreshIcon from '@mui/icons-material/Refresh';
-
+import { useSelector } from 'react-redux';
 import * as XLSX from 'xlsx'
+import {  useNavigate } from 'react-router-dom';
 
 function Manage_cashier() {
     const [modal, setModals] = useState(false);
+    const navigate= useNavigate();
     const [users,setUsers]=useState([]);
-  
+    const account= useSelector(state=>state.cashier_reducer.user);
     useEffect(()=>{
 //    
+    if(account!==null)
+    {
         get_all_users().then((res)=>{
             setUsers(res.data);
         })
-
+}
+else{
+    navigate("/")
+}
     },[])
     const handelrefresh=()=>{
         setUsers(null);

@@ -1,12 +1,14 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Checkphonenumber, get_today_date, username_validation } from '../functions/BookingGenerator';
 import Modals from '../components/Modals';
 import api from '../Apis/api';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 function Add_Cashier_modal({modal_status,Modal_toggle}) {
    
     const [success_dialog, setsuccess]=useState(false);
+    const navigate= useNavigate();
     const [error_dialog ,setdialog]= useState(false);
     const account= useSelector(state=>state.cashier_reducer.user);
     const [Error_text,set_text]=useState("");
@@ -20,10 +22,17 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
           email:"",
           gender:"Female",
           date:get_today_date(),
-          id:account.account_id
+          id:account?.account_id
 
     });
   const toggle = () => Modal_toggle();
+  useEffect(()=>{
+    if(account==null||undefined)
+    return  navigate("/");
+   
+   
+   
+   },[])
   
   const onHandelChange=(e)=>{
     setInfo( (prev)=>({
