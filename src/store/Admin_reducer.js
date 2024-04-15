@@ -18,7 +18,12 @@ export const Admin_reducer=(state=initialState,action)=>
 
             ...state,selected_emp:action.payload
         }
+        case acTypes.reset_selected:
+            return{
 
+            ...state,selected_emp:null,
+                selected_emp:null
+        }
         default:
             return state;
     }

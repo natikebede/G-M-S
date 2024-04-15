@@ -62,6 +62,12 @@ export const  select_employee=(user)=>{
       payload:user
    }
 }
+export const  reset_selected_user=()=>{
+   return{
+      type:acTypes.reset_selected,
+     
+   }
+}
 
 
 

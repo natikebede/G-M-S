@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 function Edit_user_modal({modal_status,Modal_toggle}) {
     const user=useSelector(state=>state.admin_reducer.selected_user);
   
-console.log(user);
+
 const [user_info, setInfo]= useState({
     fullname:"",
     username:"",
@@ -39,7 +39,7 @@ useEffect(()=>{
         gender:user.gender,
         Created_date:moment(user.start_date).format('YYYY-MM-DD'),
         emp_id:user.emp_id,
-        account_ird: user.account_id,
+        account_id: user.account_id,
         email:user.email!==null? user.email :" "
     })
     }

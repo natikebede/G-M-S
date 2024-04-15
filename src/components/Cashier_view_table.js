@@ -5,7 +5,7 @@ import $ from 'jquery';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import { useDispatch } from 'react-redux';
-import { Select_user } from '../store/Actions';
+import { Select_user, reset_selected_user } from '../store/Actions';
 import Edit_user_modal from '../Admin_pages/Edit_user_modal';
 function Cashier_view_table({data}) {
 const dispatch= useDispatch();
@@ -21,7 +21,7 @@ const [modal, setModals] = useState(false);
   });
  const handelEdit=(id)=>{
    const result= data.filter((datas)=>{return(datas.emp_id==id)});
-  //  console.log(result[0]);
+   dispatch(reset_selected_user());
     dispatch(Select_user(result[0]));
     Modal_toggle();
  };
