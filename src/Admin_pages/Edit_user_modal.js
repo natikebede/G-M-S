@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 function Edit_user_modal({modal_status,Modal_toggle}) {
     const user=useSelector(state=>state.admin_reducer.selected_user);
   
-
+console.log(user);
 const [user_info, setInfo]= useState({
     fullname:"",
     username:"",
@@ -19,6 +19,7 @@ const [user_info, setInfo]= useState({
     role:"Cashier",
     gender:"Female",
     sallery:"",
+    email:"",
     created_date:"",
 });
 useEffect(()=>{
@@ -37,7 +38,9 @@ useEffect(()=>{
         sallery:user.sallery,
         gender:user.gender,
         Created_date:moment(user.start_date).format('YYYY-MM-DD'),
-        id:user.emp_id
+        emp_id:user.emp_id,
+        account_ird: user.account_id,
+        email:user.email!==null? user.email :" "
     })
     }
 
@@ -138,6 +141,15 @@ useEffect(()=>{
               <input type="tel" className="form-control" required value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
               </div>
             </div>
+
+            <div className="mb-3 mt-3">
+              <label for="email" className="form-label">Email:</label>
+              <div class="input-group">
+                <span class="input-group-text fw-bold">@</span>
+              <input type="email" className="form-control" required value={user_info.email}  onChange={onHandelChange} id="email" placeholder="Jhon@gmail.com" name="email"/>
+              </div>
+            </div>
+
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Username:</label>
               <input type="Text" className="form-control" disabled="true" required value={user_info.username} onChange={onHandelChange} id="username" placeholder="Enter Username" name="username"/>

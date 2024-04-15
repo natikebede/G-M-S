@@ -6,6 +6,7 @@ import { set_user, set_admin_user } from './store/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Authverfication } from './functions/BookingGenerator';
 import Modals from './components/Modals';
+import Password_change_modal from './components/Password_change_modal';
 function Loginpage() {
   const [username,setusername]=useState("");
   const [password,setpassword]=useState("");
@@ -13,12 +14,16 @@ function Loginpage() {
   const [error_alert ,setAlert]=useState(false);
   const navigate= useNavigate();
   const dispatch= useDispatch();
+  const [modal,setModals]=useState(false);
+  
   
  useEffect(()=>{
   Authverfication(dispatch,navigate)
 
 
  },[])
+ const Modal_toggle = () => {
+  setModals(!modal);}
 
   const handelsubmit=async(e)=>
   {
@@ -34,18 +39,32 @@ function Loginpage() {
         {
           if(response.data.data.user.status=="Active")
           {
-            localStorage.setItem("token",token);
+           
           if(response.data.data.user.role=="Cashier")
           {
             dispatch(set_user(response.data.data.user));
             setAlert(false);
-            navigate("/dashbord");
+            if(response.data.data.user.activation=="inactive")
+            { localStorage.setItem("token",token);
+              Modal_toggle();
+            }else
+            {
+              navigate("/dashbord");
+            }
+            // navigate("/dashbord");
           }
           else if(response.data.data.user.role=="Admin")
           {
             dispatch(set_user(response.data.data.user));
             setAlert(false);
-            navigate("/Admin__dashbord");
+            if(response.data.data.user.activation=="inactive")
+            {
+                Modal_toggle();
+            }else
+            {
+              navigate("/Admin__dashbord");
+            }
+            // navigate("/Admin__dashbord");
           }
         }
         else
@@ -104,7 +123,7 @@ function Loginpage() {
                         <button type="submit" className=" Login_btn" >Log in</button>
                   </form>
                     
-
+      <Password_change_modal modal_status ={modal} Modal_toggle={Modal_toggle} />
                     </div>
                     
                 </div>

@@ -17,6 +17,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
           password:"123456aaAA$",
           status:"Active",
           role:"Cashier",
+          email:"",
           gender:"Female",
           date:get_today_date(),
           id:account.account_id
@@ -80,6 +81,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
                   fullname:"",
                   username:"",
                   phonenumber:"",
+                  email:"",
                   password:"123456aaAA$",
                   status:"Active",
                   role:"Cashier",
@@ -135,6 +137,14 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
               <div class="input-group">
                 <span class="input-group-text fw-bold">+251</span>
               <input type="tel" className="form-control" required value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
+              </div>
+            </div>
+
+            <div className="mb-3 mt-3">
+              <label for="email" className="form-label">Email:</label>
+              <div class="input-group">
+                <span class="input-group-text fw-bold">@</span>
+              <input type="email" className="form-control" required value={user_info.email}  onChange={onHandelChange} id="email" placeholder="Jhon@gmail.com" name="email"/>
               </div>
             </div>
             <div className="mb-3 mt-3">

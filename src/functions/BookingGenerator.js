@@ -94,43 +94,8 @@ export const get_today_date =()=>{
     return datetime;
  
 }
-// for checking if trip exists in the database
 
-export const check_trip=async(trip)=>{
-    try {
-      const response= await api.post("/Trips/check_trip",{
-        trip
-      })
-      if (response.data.status=="success")
-      {
-        if (response.data.result==0){
-          return({
-            status:"success",
-            data:true
-
-          });
-        }
-        else{
-        return  ({
-          status:"success",
-            data:false
-          });
-        }
-
-      }
-      else{
-         return({
-          status:"fail",
-          error:response.data.error.detail
-         })
-
-      }
-   
-    } catch (error) {
-      console.log (error)
-    }
-
-}
+//convert to date
 export const convert_to_date=(date1)=>{
   var currentdate =new Date (date1)
   const format="YYYY-MM-DD";
@@ -138,4 +103,14 @@ export const convert_to_date=(date1)=>{
   const date= moment(currentdate).format(format);
     return date;
  
+}
+//check if passwords match
+export const check_password_match=(p1,p2)=>{
+
+    if(p1==p2){
+      return true;
+    }
+    else{
+      return false;
+    }
 }
