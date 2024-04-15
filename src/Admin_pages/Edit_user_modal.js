@@ -40,7 +40,7 @@ useEffect(()=>{
         Created_date:moment(user.start_date).format('YYYY-MM-DD'),
         emp_id:user.emp_id,
         account_id: user.account_id,
-        email:user.email!==null? user.email :" "
+        email: user.email 
     })
     }
 
