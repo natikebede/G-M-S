@@ -22,7 +22,7 @@ export const Admin_reducer=(state=initialState,action)=>
             return{
 
             ...state,selected_emp:null,
-                selected_emp:null
+            selected_user:null
         }
         default:
             return state;

@@ -12,7 +12,7 @@ function Loginpage() {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
   const [error_text, settext] = useState('');
-  const [error_type, settype] = useState('success2');
+  const [error_type, settype] = useState('success');
   const [error_alert, setAlert] = useState(false);
   const [modal, setModal] = useState(false);
   const [email, setEmail] = useState('');
@@ -114,7 +114,7 @@ function Loginpage() {
     } catch (error) {
       setModal(false);
       settype('error');
-      console.error('Error:', error);
+      console.log('Error:', error);
       setAlert(true);
       settext('Failed to initiate password reset. Please try again.');
     }
