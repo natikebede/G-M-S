@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import './Loginpage.css'
+import React, { useState, useEffect } from 'react';
+import './Loginpage.css';
 import api from './Apis/api';
 import { useNavigate } from 'react-router-dom';
-import { set_user, set_admin_user } from './store/Actions';
-import { useDispatch, useSelector } from 'react-redux';
-import { Authverfication } from './functions/BookingGenerator';
+import { set_user } from './store/Actions';
+import { useDispatch } from 'react-redux';
 import Modals from './components/Modals';
-import Password_change_modal from './components/Password_change_modal';
+import { Authverfication } from './functions/BookingGenerator';
+import Password_change_email_modal from './components/Password_change_email_modal';
+
 function Loginpage() {
-  const [username,setusername]=useState("");
-  const [password,setpassword]=useState("");
-  const [error_text,settext]=useState("");
-  const [error_alert ,setAlert]=useState(false);
-  const navigate= useNavigate();
-  const dispatch= useDispatch();
-  const [modal,setModals]=useState(false);
+  const [username, setusername] = useState('');
+  const [password, setpassword] = useState('');
+  const [error_text, settext] = useState('');
+  const [error_type, settype] = useState('success2');
+  const [error_alert, setAlert] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [email, setEmail] = useState('');
   const [tokens,setToken]=useState(null)
-  
-  
- useEffect(()=>{
-  Authverfication(dispatch,navigate)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    Authverfication(dispatch,navigate);
+  }, []);
 
- },[])
- const Modal_toggle = () => {
-  setModals(!modal);}
+  const Modal_toggle = () => {
+    setModal(!modal);}
 
-  const handelsubmit=async(e)=>
+  const handleLoginSubmit=async(e)=>
   {
     e.preventDefault();
     try {
@@ -90,53 +91,98 @@ function Loginpage() {
     }
     
   }
+ 
+
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.post('/forgotPassword', {
+        email: email,
+      });
+      if (response.data.success) {
+        setModal(false);
+        // settype('success2');
+        setAlert(true);
+        settext('Sent new temporary password to email. Please check your email!');
+        setEmail('');
+      } else {
+        setModal(false);
+        settype('error');
+        setAlert(true);
+        settext('Please try again.');
+      }
+    } catch (error) {
+      setModal(false);
+      settype('error');
+      console.error('Error:', error);
+      setAlert(true);
+      settext('Failed to initiate password reset. Please try again.');
+    }
+  };
+
   return (
     <div>
-        <div className='container contianer_height  rounded'>
-            <div className='row h-100 pt-2'>
-               
-                <div className='col-sm-10 col-lg-5 mx-auto  mt-2 rounded color-contianer'>
-                    <div className='top_image_container' >
-                        <div className='img_container'>
-                            <img src='../Assets/gym_logo_icon.png' className='logo' alt=''/> 
-                        <div className='welcome_title'>
-                            <h6 > Welcome Back !</h6>
-                            <h4 >Please enter your details</h4>
-                        </div>
-                      </div>
-                        
-                    </div>
-                  { error_alert && <Modals type ="error" text={error_text}/>}
+      <div className="container contianer_height  rounded">
+        <div className="row h-100 pt-2">
+          <div className="col-sm-10 col-lg-5 mx-auto  mt-2 rounded color-contianer">
+            <div className="top_image_container">
+              <div className="img_container">
+                <img src="../Assets/gym_logo_icon.png" className="logo" alt="" />
+                <div className="welcome_title">
+                  <h6> Welcome Back!</h6>
+                  <h4>Please enter your details</h4>
+                </div>
+              </div>
+            </div>
+            {error_alert && <Modals type="error" text={error_text} />}
 
-                    <div>
-                    <form   className='form_container' onSubmit={handelsubmit}>
-                        <div className="mb-4 mt-3">
-                          <input type="username" required className="inputs" value={username} onChange={(e)=>{setusername(e.target.value)}} id="email" placeholder="Username" name="email"/>
-                        </div>
-                        <div className="mb-4">
-                         
-                          <input type="password" required className="inputs" value={password} onChange={(e)=>{setpassword(e.target.value)}}  id="pwd" placeholder="Password" name="pswd"/>
-                        </div>
-                        <div className="form-check check_container px-3  mb-3">
+            <div>
+              <form className="form_container" onSubmit={handleLoginSubmit}>
+                <div className="mb-4 mt-3">
+                  <input
+                    type="username"
+                    required
+                    className="inputs"
+                    value={username}
+                    onChange={(e) => setusername(e.target.value)}
+                    id="email"
+                    placeholder="Username"
+                    name="email"
+                  />
+                </div>
+                <div className="mb-4">
+                  <input
+                    type="password"
+                    required
+                    className="inputs"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
+                    id="pwd"
+                    placeholder="Password"
+                    name="pswd"
+                  />
+                </div>
+                <div className="form-check check_container px-3  mb-3">
                           <label className="check_input_lable ">
                             <input className="form-check-input check_input " required type="checkbox" name="remember"/> Remember me for 30 days
                           </label>
                           <div>
-                            <span> Forgot password ?</span>
+                            <span onClick={() => setModal(true)}> Forgot password ?</span>
                           </div>
                         </div>
-                        <button type="submit" className=" Login_btn" >Log in</button>
-                  </form>
-                    
-      <Password_change_modal modal_status ={modal} Modal_toggle={Modal_toggle} token={tokens}/>
-                    </div>
-                    
-                </div>
+                <button type="submit" className="Login_btn">
+                  Log in
+                </button>
+              </form>
 
+              
             </div>
+          </div>
         </div>
+      </div>
+      <Password_change_email_modal modal_status={modal} Modal_toggle={() => setModal(!modal)} handleForgotPasswordSubmit={handleForgotPasswordSubmit} setEmail={setEmail} email={email} error_alert={error_alert} error_type={error_type} error_text={error_text}/>
     </div>
-  )
+  );
 }
 
-export default Loginpage
+export default Loginpage;
