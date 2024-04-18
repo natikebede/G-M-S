@@ -83,6 +83,7 @@ function Loginpage() {
         }
         else
         {
+         settype("error");
           setAlert(true);
           settext(" Your account has been suspended please contact you Manager!!!")
 
@@ -90,6 +91,7 @@ function Loginpage() {
          
         }
         else{
+          settype("error");
           setAlert(true);
           settext(" Incorrect Username or Password !!!")
         }
@@ -109,7 +111,7 @@ function Loginpage() {
       });
       if (response.data.success) {
         setModal(false);
-        // settype('success2');
+         settype('success');
         setAlert(true);
         settext('Sent new temporary password to email. Please check your email!');
         setEmail('');
@@ -144,7 +146,7 @@ function Loginpage() {
                       </div>
                         
                     </div>
-                  { error_alert && <Modals type ="error" text={error_text}/>}
+                  { error_alert && <Modals type ={error_type} text={error_text}/>}
 
                     <div>
                     <form   className='form_container' onSubmit={handleLoginSubmit}>
@@ -160,7 +162,7 @@ function Loginpage() {
                             <input className="form-check-input check_input " required type="checkbox" name="remember"/> Remember me for 30 days
                           </label>
                           <div>
-                            <span> Forgot password ?</span>
+                            <span onClick={Modal_toggle}> Forgot password ?</span>
                           </div>
                         </div>
                         <button type="submit" className=" Login_btn" >Log in</button>

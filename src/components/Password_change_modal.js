@@ -66,7 +66,7 @@ function Password_change_modal({modal_status,Modal_toggle,token}) {
                         setsuccess(true);
                         localStorage.setItem("token",token);
                         set_text("Password change successful")
-                        navigate("/");
+                        toggle();
                         
                     }
                     else{
