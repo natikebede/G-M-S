@@ -6,7 +6,10 @@ import { set_user, set_admin_user } from './store/Actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Authverfication } from './functions/BookingGenerator';
 import Modals from './components/Modals';
+import Password_change_email_modal from './components/Password_change_email_modal';
 import Password_change_modal from './components/Password_change_modal';
+
+
 function Loginpage() {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
@@ -14,9 +17,11 @@ function Loginpage() {
   const [error_type, settype] = useState('success');
   const [error_alert, setAlert] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [email, setEmail] = useState('');
   const [tokens,setToken]=useState(null)
-  
+  const dispatch= useDispatch();
+  const navigate= useNavigate();
   
  useEffect(()=>{
   Authverfication(dispatch,navigate)
@@ -24,9 +29,13 @@ function Loginpage() {
 
  },[])
  const Modal_toggle = () => {
-  setModals(!modal);}
+  setModal(!modal);}
 
-  const handelsubmit=async(e)=>
+
+    const Modal_toggle2 = () => {
+      setModal2(!modal2);}
+
+  const handleLoginSubmit=async(e)=>
   {
     e.preventDefault();
     try {
@@ -48,7 +57,7 @@ function Loginpage() {
             if(response.data.data.user.activation=="inactive")
             { 
               setToken(token);
-              Modal_toggle();
+              Modal_toggle2();
             }else
             {
               localStorage.setItem("token",token);
@@ -62,7 +71,7 @@ function Loginpage() {
             setAlert(false);
             if(response.data.data.user.activation=="inactive")
             {     setToken(token);
-              Modal_toggle();
+              Modal_toggle2();
               
             }else
             {
@@ -138,7 +147,7 @@ function Loginpage() {
                   { error_alert && <Modals type ="error" text={error_text}/>}
 
                     <div>
-                    <form   className='form_container' onSubmit={handelsubmit}>
+                    <form   className='form_container' onSubmit={handleLoginSubmit}>
                         <div className="mb-4 mt-3">
                           <input type="username" required className="inputs" value={username} onChange={(e)=>{setusername(e.target.value)}} id="email" placeholder="Username" name="email"/>
                         </div>
@@ -157,13 +166,18 @@ function Loginpage() {
                         <button type="submit" className=" Login_btn" >Log in</button>
                   </form>
                     
-      <Password_change_modal modal_status ={modal} Modal_toggle={Modal_toggle} token={tokens}/>
+                  <Password_change_email_modal modal_status={modal} Modal_toggle={Modal_toggle} handleForgotPasswordSubmit={handleForgotPasswordSubmit} setEmail={setEmail} email={email} error_alert={error_alert} error_type={error_type} error_text={error_text}/>
+                  <Password_change_modal modal_status ={modal2} Modal_toggle={Modal_toggle2} token={tokens}/>
                     </div>
                     
                 </div>
 
             </div>
         </div>
+
+   
+     
+
     </div>
   )
 }
