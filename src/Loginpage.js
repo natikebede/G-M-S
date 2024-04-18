@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import Modals from './components/Modals';
 import { Authverfication } from './functions/BookingGenerator';
 import Password_change_email_modal from './components/Password_change_email_modal';
+import Password_change_modal from './components/Password_change_modal';
 
 function Loginpage() {
   const [username, setusername] = useState('');
@@ -15,6 +16,7 @@ function Loginpage() {
   const [error_type, settype] = useState('success2');
   const [error_alert, setAlert] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modal2, setModal2] = useState(false);
   const [email, setEmail] = useState('');
   const [tokens,setToken]=useState(null)
   const dispatch = useDispatch();
@@ -26,6 +28,9 @@ function Loginpage() {
 
   const Modal_toggle = () => {
     setModal(!modal);}
+
+    const Modal_toggle2 = () => {
+      setModal2(!modal2);}
 
   const handleLoginSubmit=async(e)=>
   {
@@ -49,7 +54,7 @@ function Loginpage() {
             if(response.data.data.user.activation=="inactive")
             { 
               setToken(token);
-              Modal_toggle();
+              Modal_toggle2();
             }else
             {
               localStorage.setItem("token",token);
@@ -63,7 +68,7 @@ function Loginpage() {
             setAlert(false);
             if(response.data.data.user.activation=="inactive")
             {     setToken(token);
-              Modal_toggle();
+              Modal_toggle2();
               
             }else
             {
@@ -181,6 +186,7 @@ function Loginpage() {
         </div>
       </div>
       <Password_change_email_modal modal_status={modal} Modal_toggle={() => setModal(!modal)} handleForgotPasswordSubmit={handleForgotPasswordSubmit} setEmail={setEmail} email={email} error_alert={error_alert} error_type={error_type} error_text={error_text}/>
+      <Password_change_modal modal_status ={modal2} Modal_toggle={Modal_toggle2} token={tokens}/>
     </div>
   );
 }
