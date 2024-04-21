@@ -11,6 +11,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useSelector } from 'react-redux';
 import * as XLSX from 'xlsx'
 import {  useNavigate } from 'react-router-dom';
+import Test_Table from '../components/Test_Table';
 
 function Manage_cashier() {
     const [modal, setModals] = useState(false);
@@ -69,8 +70,8 @@ else{
                     </div>
 
                     <Add_Cashier_modal  modal_status ={modal} Modal_toggle={Modal_toggle}/>
-                   
-                    { users ? <Cashier_view_table data={users}/>:<SimpleBackdrop/> }
+                    { users ? <Test_Table results={users}/>:<SimpleBackdrop/> }
+                    {/* { users ? <Cashier_view_table data={users}/>:<SimpleBackdrop/> } */}
                 </div>
       
 
