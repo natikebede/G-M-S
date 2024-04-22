@@ -23,7 +23,12 @@ function AdminDashbord() {
     renewed_month:0,
     joined_month:0,
   })
-
+  const nf = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'ETB',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
   const user= useSelector(state=>state.cashier_reducer.user);
   const navigate= useNavigate();
 
@@ -132,7 +137,7 @@ function AdminDashbord() {
     </div>
     <div className='row mt-4'>
         <div className='col-sm-12 col-md mx-auto my-2' >
-            <Admin_detail_cards title=" Sales | ETB" today_value={gadget.todaySales+".00 Birr"} montly_value={gadget.monthly_Sales+".00 Birr"} Icon={<PaidIcon className='text-success' fontSize='large'/>} time="Today"/>
+            <Admin_detail_cards title=" Sales | ETB" today_value={nf.format(gadget.todaySales)} montly_value={nf.format(gadget.monthly_Sales)} Icon={<PaidIcon className='text-success' fontSize='large'/>} time="Today"/>
         </div>
         <div className='col-sm-12 col-md mx-auto my-2' >
          <Admin_detail_cards title="Memeberships Renewed"  today_value={gadget.renewed_today} montly_value={gadget.renewed_month} Icon={<PublishedWithChangesIcon className='text-info' fontSize='large'/>} time="Today"/>

@@ -1,3 +1,4 @@
+import MUIDataTable from "mui-datatables";
 import React from 'react'
 import $ from 'jquery';
 import "../Cashier_page_css/view_membership_cashier.css"
@@ -12,97 +13,114 @@ import { set_selected_memeber } from '../store/Actions';
 
 function View_Membership_table({result}) {
   const user= useSelector(state=>state.cashier_reducer.user);
+  const dispatch= useDispatch();
+  const navigate= useNavigate();
 
-  console.log(user);
-    const dispatch= useDispatch();
-    const navigate= useNavigate();
-    $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
-          var value = $(this).val().toLowerCase();
-          $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-          });
-        });
-      });
-
-      // button to handel renewal
-      const handel_renewal= (membership_id)=>{
-    const memeber= result.filter((memeber)=>{
-        return memeber.membership_id==membership_id;
-    })
-
-        dispatch(set_selected_memeber(memeber[0]));
-        if(user.role=="Cashier")
-       { 
-        navigate(`/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
-        }  
-        else
-        {
-          navigate(`/Admin/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
-      
-        }
+  // function that handel the renwal of the the memebership by navigating to the memebership page
+  const handel_renewal= (membership_id)=>{
+      const memeber= result.filter((memeber)=>{
+          return memeber.membership_id==membership_id;
+      })
+  
+          dispatch(set_selected_memeber(memeber[0]));
+          if(user.role=="Cashier")
+         { 
+          navigate(`/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
+          }  
+          else
+          {
+            navigate(`/Admin/Memebership/renewal/${memeber[0].fullname}/${memeber[0].membership_id}`)
+        
+          }
+    }
+  const columns = [
+     
+      {label:"Name",name:"fullname"},
+      {label:"Phonenumber",name:"contact_number"},
+      {label:"Gender",name:"gender"},
+      {label:"Registration date",name:"registration_date",
+       options:{
+          customBodyRender:(value)=>(
+              moment(value ).format('YYYY-MM-DD')
+          )
+  }},
+      {label:"Membership type",name:"memebership_type"},
+      {label:"Start date",name:"start_date",
+      options:{
+          customBodyRender:(value)=>(
+              moment(value ).format('YYYY-MM-DD')
+          )
+  }},
+      {label:"End Date",name:"end_date",
+      options:{
+          customBodyRender:(value)=>(
+              moment(value ).format('YYYY-MM-DD')
+          )
   }
+},
+      
+      {label:"Status",name:"status" ,options:{
+          customBodyRender:(value)=>(
+              value=='Active'?
+              <span className='bg-success  text-white p-3 rounded fw-bold'> Active </span>:
+              <span className='bg-danger text-white p-3 rounded fw-bold'> Inactive </span>
+              
+          )
+      }},
+      {label:"Days Left",name:"end_date",options:{
+          customBodyRender:(value,tableMeta)=>{
+              const days_left=subDays(value);
+              if(days_left<=1)
+              {console.log(tableMeta);
+                  deactivate_memebership(tableMeta.rowData[9]);
+              }
+              return(
+                  <span className={days_left<=5?"bg-danger rounded text-white fw-bold p-3":" bg-primary fw-bold text-light rounded p-3"}>{days_left} </span>
+              )
+          }
+              
+              
+  }},
 
+      {label:"Action",name:"membership_id", options:{
+              customBodyRender:(value)=>(
+                  <CachedIcon onClick ={()=>handel_renewal(value)} className='print_icon'/>
+              )
+      }},
 
-
+  ];
+  const options = {
+      filterType: 'checkbox',
+      pagination:true,
+      
+      responsive:'stacked',
+      rowsPerPage:5,
+      rowsPerPageOptions:[5,10,15,20],
+      rowHover:true,
+      // sort:true,
+      // filter:true,
+      // Search:true,
+      // download:true,
+      selectableRowsHeader:false,
+      selectableRows:false
+    };
+  
       if(  result!== undefined && result !== null && result.length !==0)
 {
   return (
-    <div className='table_format'>
-        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3" placeholder='Memeber name / phone / Membership-ID'/>
-                    <table className="table table-hover">
-    <thead className="table-dark">
-      <tr>
-        
-        <th>Name</th>
-        <th>phone no</th>
-        <th>Gender</th>
-        <th>registration date</th>
-        <th>Membership type</th>
-        <th>start_date</th>
-        <th>End Date</th>
-        <th>Status</th>
-        <th>Days left</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-        {
-           result && result.map((data)=>{
-            const days_left=subDays(data.end_date);
-            if(days_left<=1)
-            {
-                deactivate_memebership(data.membership_id);
-            }
-                return(
-                    <tr key={data.membership_id} className={days_left<=5?"table-danger fw-bold":""}>
-       
-        <td>{data.fullname}</td>
-        <td>{data.contact_number}</td>
-        <td>{data.gender}</td>
-        <td>{moment(data.registration_date).format('YYYY-MM-DD')}</td>
-         <td>{data.memebership_type}</td>           
-         <td>{moment(data.start_date).format('YYYY-MM-DD')}</td>
-         <td>{moment(data.end_date).format('YYYY-MM-DD')}</td>
-        <td>{data.status}</td>
-        <td>{parseInt(days_left)}</td>
-        <td><CachedIcon onClick ={()=>handel_renewal(data.membership_id)} className='print_icon'/> <DeleteIcon className='delete_icon'/></td>
-      </tr>
-                )
-            })
-        }
-      
-      
-    </tbody>
-  </table>
-    </div>
+    <MUIDataTable 
+  title={"Member List"}
+  data={result}
+  columns={columns}
+  options={options}
+/>
   )
 }
 else
 {
     return (
         <div>
-        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3"placeholder='passanger name / Destination / Booking ID'/>
+        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3"placeholder='Memmber Name / Phone / Member-ID'/>
                     
         <Modals type ="error" text="Sorry no Memberships where found"/>
    

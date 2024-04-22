@@ -1,27 +1,70 @@
-import React from 'react'
 import MUIDataTable from "mui-datatables";
+import { useSelector } from 'react-redux'
+import moment from 'moment'
+import DeleteIcon from '@mui/icons-material/Delete';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
-import moment from 'moment/moment';
+import {  useNavigate } from 'react-router-dom';
+import { useDispatch} from 'react-redux';
+import Modals from './Modals';
+import $ from 'jquery';
+import api from '../Apis/api';
+import { select_employee } from '../store/Actions';
 function Test_Table({results}) {
-    const handelEdit=(id)=>{
-        const result= results.filter((datas)=>{return(datas.emp_id==id)});
-        console.log(result)
-    }
+    const navigate= useNavigate();
+    const dispatch= useDispatch()
+       //navigate to the edit page
+   const handelEdit=(id)=>{
+       const [user]=results.filter((res)=>res.emp_id==id)
+       dispatch(select_employee(user))
+           navigate(`/Admin/Employe/Edit/${id}`)
+           
+         }
+    const nf = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'ETB',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+
+    const handelDelete=()=>{}
     const columns = [
        
-        {label:"Username",name:"username"},
-        {label:"Fullname",name:"fullname"},
+        {label:"Name",name:"fullname"},
         {label:"Phonenumber",name:"contact_number"},
+        {label:"Gender",name:"gender"},
         {label:"Position",name:"position"},
-        {label:"Salary",name:"sallery"},
-        {label:"Created Date",name:"start_date",
-        options:{
-            customBodyRender:(value)=>(
-                moment(value ).format('YYYY-MM-DD')
-            )
+        {label:"Start date",name:"start_date",
+            options:{
+                customBodyRender:(value)=>(
+                    moment(value ).format('YYYY-MM-DD')
+                ) }
+        },
+        {label:"Salary",name:"sallery",options:{
+            customBodyRender:(value,tableMeta)=>{
+                return(
+                    <span className="bg-success text-light p-2 rounded fw-bold">{nf.format(value)} </span>
+                )
+            }  
     }},
-        {label:"Role",name:"role"},
-        {label:"Status",name:"status"},
+    
+        
+        {label:"Bank Account",name:"bank_account",options:{
+            customBodyRender:(value,tableMeta)=>{
+                return(
+                    <span className="fw-bold">{value} </span>
+                )
+            }  
+    }
+     },
+
+    {label:"Status",name:"status" ,options:{
+        customBodyRender:(value)=>(
+            value=='Active'?
+            <span className='bg-success  text-white p-2 rounded fw-bold'> Active </span>:
+            <span className='bg-danger text-white p-2 rounded fw-bold'> Inactive </span>
+            
+        )
+    }},
         {label:"Action",name:"emp_id", options:{
                 customBodyRender:(value)=>(
                     <SaveAsIcon  className='print_icon ' onClick={()=>handelEdit(value)} />
@@ -44,15 +87,33 @@ function Test_Table({results}) {
         selectableRowsHeader:false,
         selectableRows:false
       };
-    
+if(  results!== undefined && results !== null && results.length !==0)
+      { 
+        
   return (
-    <MUIDataTable 
-  title={"Account List"}
+    <div>
+        <MUIDataTable 
+  title={"Employee report"}
   data={results}
   columns={columns}
   options={options}
 />
+
+    </div>
+    
+
   )
+}
+else
+{
+    return (
+        <div>
+                    
+        <Modals type ="error" text="No employees found "/>
+   
+    </div>
+    )
+}
 }
 
 export default Test_Table

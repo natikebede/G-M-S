@@ -12,6 +12,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { get_all_memebership, get_all_memebership_between } from '../functions/counts_sales';
 import View_Membership_table from '../components/View_Membership_table';
 import SimpleBackdrop from '../components/SimpleBackdrop'
+import Test_Table from '../components/Test_Table';
 function Admin_view_Membership() {const [result,setResult]= useState(null);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
@@ -118,6 +119,7 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
                 </div>
                 
                 <div className='col-sm-12'>
+                {/* { result? <Test_Table result={result}/>:<SimpleBackdrop/>} */}
               { result? <View_Membership_table result={result}/>:<SimpleBackdrop/>}
               </div>
                   </div>

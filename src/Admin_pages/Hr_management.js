@@ -40,7 +40,7 @@ function Hr_management() {
     }
     const get_data=()=>{
         get_number_of_employee().then((res)=>{
-            console.log(res);
+          
             res.map((data)=>{
                 if(data.position=="Admin")
                 {
@@ -76,7 +76,7 @@ function Hr_management() {
             })
             
             get_all_employee().then((res)=>{
-                console.log(res);
+             
                 setResult(res);
             })
         });

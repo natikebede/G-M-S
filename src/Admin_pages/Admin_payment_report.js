@@ -12,6 +12,7 @@ import SimpleBackdrop from '../components/SimpleBackdrop';
 import View_payment_reports from '../components/View_payment_reports';
 import { get_payment_reports_filtered,get_payment_reports_cashier} from '../functions/counts_sales';
 import { get_all_cashiers, get_all_payment_details,admin_get_payment_reports_filtered  } from '../functions/admin_functions';
+import Test_Table from '../components/Test_Table';
 
 
 
@@ -190,7 +191,7 @@ function Admin_payment_report() {
             </div>    
             
             <div className='col-sm-12'>
-                {/* <View_payment_reports result={result} /> */}
+            {/* { result? <Test_Table result={result}/>:<SimpleBackdrop/>} */}
           { result? <View_payment_reports result={result}/>:<SimpleBackdrop/>}
           </div>
               </div>

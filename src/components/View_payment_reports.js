@@ -1,3 +1,4 @@
+import MUIDataTable from "mui-datatables";
 import React from 'react'
 import $ from 'jquery';
 import "../Cashier_page_css/view_membership_cashier.css"
@@ -10,76 +11,92 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Modals from './Modals';
 import PaidIcon from '@mui/icons-material/Paid';
 import Detail_Cards from './Detail_Cards';
-
 function View_payment_reports({result}) {
-    var sales=0.0;
-    var count=0;
-    $(document).ready(function(){
-        $("#myInput").on("keyup", function() {
-          var value = $(this).val().toLowerCase();
-          $("#myTable tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-          });
-        });
+  var sales=0;
+    var count=result.length;
+    const nf = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'ETB',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
       });
-      console.log("the response",result);
-   
 
-      // button to handel renewal
-      const handel_renewal= (membership_id)=>{
- }
+    // function that handel the renwal of the the memebership by navigating to the memebership page
+    const handel_renewal= (membership_id)=>{
+    }
+    const columns = [
+       
+        {label:"Name",name:"fullname"},
+        {label:"Phonenumber",name:"contact_number"},
+        {label:"Membership type",name:"memebership_type"},
+        {label:"End Date",name:"end_date",
+            options:{
+                customBodyRender:(value)=>(
+                    moment(value ).format('YYYY-MM-DD')
+                ) }
+        },
+        {label:"Paymnet Date",name:"payment_date",
+            options:{
+                customBodyRender:(value)=>(
+                    moment(value ).format('YYYY-MM-DD')
+                )
+        }},
+        
+        {label:"Payment Type",name:"payment_type" ,options:{
+            customBodyRender:(value)=>(
+                value=='Renewal'?
+                <span className='bg-info  text-white p-3 rounded fw-bold'> {value} </span>:
+                <span className='bg-primary text-white p-3 rounded fw-bold'> {value} </span>
+                
+            )
+        }},
+        {label:"Amount",name:"amount",options:{
+            customBodyRender:(value,tableMeta)=>{
+                return(
+                    <span className="bg-success text-light p-3 rounded fw-bold">{nf.format(value)} </span>
+                )
+            }
+                
+                
+    }},
 
+        {label:"Action",name:"payment_id", options:{
+                customBodyRender:(value)=>(
+                    <CachedIcon onClick ={()=>handel_renewal(value)} className='print_icon'/>
+                )
+        }},
 
-
-      if(  result!== undefined && result !== null && result.length !==0)
-{
+    ];
+    const options = {
+        filterType: 'checkbox',
+        pagination:true,
+        
+        responsive:'stacked',
+        rowsPerPage:5,
+        rowsPerPageOptions:[5,10,15,20],
+        rowHover:true,
+        // sort:true,
+        // filter:true,
+        // Search:true,
+        // download:true,
+        selectableRowsHeader:false,
+        selectableRows:false
+      };
+if(  result!== undefined && result !== null && result.length !==0)
+      { 
+        result && result.map((data)=>{
+            sales=sales+parseFloat(data.amount);})
   return (
     <div>
-    <div className='table_format'>
-        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3" placeholder='Memeber name / phone / Membership-ID'/>
-                    <table className="table table-hover">
-    <thead className="table-dark">
-      <tr>
-        
-        <th>Name</th>
-        <th>phone no</th>
-        <th>Membership type</th>
-        <th>End Date</th>
-        <th>payment Date</th>
-        <th>payment Type</th>
-        <th>Amount</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody id="myTable">
-        {
-         
-           result && result.map((data)=>{
-            sales=sales+parseFloat(data.amount);
-            count =count+1;
-                return(
-                    <tr key={data.payment_id} >
-       
-        <td>{data.fullname}</td>
-        <td>{data.contact_number}</td>
-        <td>{data.memebership_type}</td>    
-        <td>{moment(data.end_date).format('YYYY-MM-DD')}</td>
-        <td>{moment(data.payment_date).format('YYYY-MM-DD')}</td>        
-        <td>{data.payment_type}</td>
-        <td>{data.amount}.00</td>
-        <td><CachedIcon onClick ={()=>handel_renewal(data.membership_id)} className='print_icon'/> <DeleteIcon className='delete_icon'/></td>
-      </tr>
-                )
-            })
-        }
-      
-      
-    </tbody>
-  </table>
-    </div>
-    <div className='row'>
+        <MUIDataTable 
+  title={"payment report"}
+  data={result}
+  columns={columns}
+  options={options}
+/>
+<div className='row mt-4'>
         <div className='col-sm-12 col-md-4 mx-auto' >
-            <Detail_Cards title="Sales | ETB" value={sales+"Birr"} Icon={<PaidIcon className='text-success' fontSize='large'/>}/>
+            <Detail_Cards title="Sales | ETB" value={nf.format(sales)} Icon={<PaidIcon className='text-success' fontSize='large'/>}/>
         </div>
         <div className='col-sm-12 col-md-4 mx-auto' >
          <Detail_Cards title="Transactions" value={count} Icon={<StackedBarChartIcon className='text-primary' fontSize='large'/>}/>
@@ -88,18 +105,18 @@ function View_payment_reports({result}) {
 
     </div>
     </div>
+    
+
   )
 }
 else
 {
     return (
-        <div>
-        <input type="text" id="myInput"  className= "cv_searchbar rounded p-3"placeholder='passanger name / Destination / Booking ID'/>
-                    
+        <div>                    
         <Modals type ="error" text="Sorry no Payment reports where found"/>
         <div className='row'>
         <div className='col-sm-12 col-md-4 mx-auto' >
-            <Detail_Cards title="Sales | ETB" value={sales} Icon={<PaidIcon className='text-success' fontSize='large'/>}/>
+            <Detail_Cards title="Sales | ETB" value={nf.format(sales)} Icon={<PaidIcon className='text-success' fontSize='large'/>}/>
         </div>
         <div className='col-sm-12 col-md-4 mx-auto' >
          <Detail_Cards title="Transactions" value={count} Icon={<StackedBarChartIcon className='text-primary' fontSize='large'/>}/>

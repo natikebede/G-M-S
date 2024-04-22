@@ -70,8 +70,8 @@ else{
                     </div>
 
                     <Add_Cashier_modal  modal_status ={modal} Modal_toggle={Modal_toggle}/>
-                    { users ? <Test_Table results={users}/>:<SimpleBackdrop/> }
-                    {/* { users ? <Cashier_view_table data={users}/>:<SimpleBackdrop/> } */}
+                   
+                    { users ? <Cashier_view_table data={users}/>:<SimpleBackdrop/> }
                 </div>
       
 
