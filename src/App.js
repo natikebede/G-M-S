@@ -19,6 +19,7 @@ import Admin_view_Membership from './Admin_pages/Admin_view_Membership.js';
 import Admin_payment_report from './Admin_pages/Admin_payment_report.js';
 import Hr_management from './Admin_pages/Hr_management.js';
 import Edit_Employee from './Admin_pages/Edit_Employee.js';
+import Footer from './components/Footer.js';
 function App() {
   return (
 
@@ -26,24 +27,24 @@ function App() {
     <Routes>
         <Route exact path='/' element={<Loginpage/>}/>
         
-        <Route path='/dashbord' element={(<NavBar NavItem={NavItem} ><CashierDashbord/></NavBar>)}/>
-        <Route path='/Add-memeber' element={(<NavBar NavItem={NavItem}><Add_memebers/></NavBar>)}/>
-        <Route path='/view-memebership' element={(<NavBar NavItem={NavItem}><View_memebership/></NavBar>)}/>
-        <Route path='/Memebership/renewal/:name/:id' element={(<NavBar NavItem={NavItem}> <Memebership_renewal/> </NavBar>)}/>
-        <Route path='/Payment-reports' element={(<NavBar NavItem={NavItem}> <Payment_reports/>  </NavBar>)}/>
+        <Route path='/dashbord' element={(<><NavBar NavItem={NavItem} ><CashierDashbord/> </NavBar><Footer/> </> )}/>
+        <Route path='/Add-memeber' element={(<><NavBar NavItem={NavItem}><Add_memebers/> </NavBar><Footer/> </>)}/>
+        <Route path='/view-memebership' element={(<><NavBar NavItem={NavItem}><View_memebership/> </NavBar><Footer/> </>)}/>
+        <Route path='/Memebership/renewal/:name/:id' element={(<><NavBar NavItem={NavItem}> <Memebership_renewal/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Payment-reports' element={(<><NavBar NavItem={NavItem}> <Payment_reports/>   </NavBar><Footer/> </>)}/>
        
        
         {/* admin routes */}
 
 
 
-        <Route path="/Admin__dashbord" element={(<NavBar NavItem={Admin_NavItem}><AdminDashbord/> </NavBar>)}/>
-        <Route path="/Manage_Cashiers" element={(<NavBar NavItem={Admin_NavItem}><Manage_cashier/> </NavBar>)}/>
-        <Route path="/Admin/view-memebership" element={(<NavBar NavItem={Admin_NavItem}><Admin_view_Membership/> </NavBar>)}/>
-        <Route path='/Admin/Memebership/renewal/:name/:id' element={(<NavBar NavItem={Admin_NavItem}> <Memebership_renewal/> </NavBar>)}/>
-        <Route path='/Admin/Payment-reports' element={(<NavBar NavItem={Admin_NavItem}> <Admin_payment_report/> </NavBar>)}/>
-        <Route path='/Hr-Management' element={(<NavBar NavItem={Admin_NavItem}> <Hr_management/> </NavBar>)}/>
-        <Route path='/Admin/Employe/Edit/:emp_id' element={(<NavBar NavItem={Admin_NavItem}> <Edit_Employee/> </NavBar>)}/>
+        <Route path="/Admin__dashbord" element={(<><NavBar NavItem={Admin_NavItem}><AdminDashbord/>  </NavBar><Footer/> </>)}/>
+        <Route path="/Manage_Cashiers" element={(<><NavBar NavItem={Admin_NavItem}><Manage_cashier/>  </NavBar><Footer/> </>)}/>
+        <Route path="/Admin/view-memebership" element={(<><NavBar NavItem={Admin_NavItem}><Admin_view_Membership/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Memebership/renewal/:name/:id' element={(<><NavBar NavItem={Admin_NavItem}> <Memebership_renewal/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Payment-reports' element={(<><NavBar NavItem={Admin_NavItem}> <Admin_payment_report/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Hr-Management' element={(<><NavBar NavItem={Admin_NavItem}> <Hr_management/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Employe/Edit/:emp_id' element={(<><NavBar NavItem={Admin_NavItem}> <Edit_Employee/>  </NavBar><Footer/> </>)}/>
 
        
       </Routes>  
