@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import TitleHeader from '../components/TitleHeader'
 import "../Cashier_page_css/view_membership_cashier.css"
-
+import Import_Modal from './Import_Modal';
 import DvrIcon from '@mui/icons-material/Dvr';
 import * as XLSX from 'xlsx'
 import ImportExportIcon from '@mui/icons-material/ImportExport';
@@ -20,7 +20,10 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
             from_date:null,
             to_date:null,
         });
-
+        const [modal, setModals] = useState(false);
+        const Modal_toggle = () => {
+            setModals(!modal);}
+    
 //setting the memebership table data
         const set_memebership_table =()=>{
             get_all_memebership().then((response)=>{
@@ -51,7 +54,9 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
        
         set_memebership_table();
     };
+ const open_fileupload_modal=()=>{
 
+ }
 
     //handel input changes
    const onhandelChange=(e)=>{
@@ -90,7 +95,7 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
                 <div className=' row '>
                 {error_dialog && <Modals type="error" text={Error_text}/>}
 
-                  <form className=' col-sm-9 ' onSubmit={handel_submit}>
+                  <form className=' col-sm-8 ' onSubmit={handel_submit}>
                   <div className='row'>
 
                   
@@ -109,9 +114,12 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
                   </div>
                   </div>
                   </form>
-                <div className='col-sm-3 d-flex justify-content-around  '>
+                <div className='col-sm-4 d-flex justify-content-around  '>
                  <div  className=' d-flex flex-wrap align-content-center  '>
                  <button className='refresh_button flex-shrink-1 'onClick={handelrefresh}><RefreshIcon/> Refresh  </button>
+                </div> 
+                <div  className=' d-flex flex-wrap align-content-center  '>
+                 <button className=' flex-shrink-1 btn btn-success 'onClick={Modal_toggle}> <ImportExportIcon/> Import  </button>
                 </div> 
                 <div className=' d-flex flex-wrap align-content-center  '>
                 <button className='export_button flex-shrink-1' onClick={handlonExport} >  <ImportExportIcon/> Export</button>
@@ -121,6 +129,7 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
                 <div className='col-sm-12'>
                 {/* { result? <Test_Table result={result}/>:<SimpleBackdrop/>} */}
               { result? <View_Membership_table result={result}/>:<SimpleBackdrop/>}
+              <Import_Modal modal_status ={modal} Modal_toggle={Modal_toggle}/>
               </div>
                   </div>
                 </div>

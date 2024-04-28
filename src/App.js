@@ -20,6 +20,8 @@ import Admin_payment_report from './Admin_pages/Admin_payment_report.js';
 import Hr_management from './Admin_pages/Hr_management.js';
 import Edit_Employee from './Admin_pages/Edit_Employee.js';
 import Footer from './components/Footer.js';
+import Manage_Expense from './Admin_pages/Manage_Expense.js';
+import AddExpense from './components/AddExpense.js';
 function App() {
   return (
 
@@ -45,6 +47,8 @@ function App() {
         <Route path='/Admin/Payment-reports' element={(<><NavBar NavItem={Admin_NavItem}> <Admin_payment_report/>  </NavBar><Footer/> </>)}/>
         <Route path='/Hr-Management' element={(<><NavBar NavItem={Admin_NavItem}> <Hr_management/>  </NavBar><Footer/> </>)}/>
         <Route path='/Admin/Employe/Edit/:emp_id' element={(<><NavBar NavItem={Admin_NavItem}> <Edit_Employee/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Expense' element={(<><NavBar NavItem={Admin_NavItem}> <Manage_Expense/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Expense/Add' element={(<><NavBar NavItem={Admin_NavItem}> <AddExpense/>  </NavBar><Footer/> </>)}/>
 
        
       </Routes>  

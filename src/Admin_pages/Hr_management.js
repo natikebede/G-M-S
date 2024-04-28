@@ -124,7 +124,7 @@ function Hr_management() {
                 <Detail_Cards title="Cleaners" Icon={<CleaningServicesIcon className='text-info'/>} value={Employes.Cleaners}/>
           </div>
         </div>
-       <div className='row cv_searchbar_container mt-3'>
+       <div className='row cv_searchbar_container p-1 mt-3'>
        <div className='row '>
         <div className='add_cashier_button_container'>
                         <button className='add_cashier_button' onClick={Modal_toggle} > <PersonAddAltIcon/> Add Employee</button>
@@ -135,7 +135,7 @@ function Hr_management() {
                 </div> 
         </div>
         </div>
-        <div className='row p-3'>
+        <div className='container-fluid  p-2'>
             
             { result ? <View_hr_management results={result}/>:<SimpleBackdrop/> }
             <Add_Employe_Modal modal_status ={modal} Modal_toggle={Modal_toggle}/>

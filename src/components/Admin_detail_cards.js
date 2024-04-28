@@ -40,7 +40,7 @@ function Admin_detail_cards({title,Icon,today_value,montly_value,time}) {
               </div>
               <div className='d-flex text_color justify-content-center mt-3'>
                   <h5 className=''> {Icon}</h5>
-                  <h5 className='px-3 fw-bold'> | {data}</h5>
+                  <h5 className={data<0?" text-danger px-3 fw-bold":"px-3 fw-bold"}> | {data}</h5>
                  
               </div>
               <h6 className='text-secondary p-0 text-end'>{times}</h6>

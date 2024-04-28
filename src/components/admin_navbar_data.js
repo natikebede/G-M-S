@@ -5,7 +5,9 @@ import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
+import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest'
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+
 const Admin_NavItem=[
     {
     path:"/Admin__dashbord",
@@ -38,5 +40,10 @@ const Admin_NavItem=[
                         name:"configration",
                         icon:<SettingsSuggestIcon/>
                         },
+                    {
+                        path:"/Admin/Expense",
+                        name:"Expense Tracking",
+                        icon:<QueryStatsIcon/>
+                     },
     ];
     export default Admin_NavItem ;

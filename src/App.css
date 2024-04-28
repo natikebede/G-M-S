@@ -39,3 +39,9 @@ body{
     transform: rotate(360deg);
   }
 }
+
+.button-colors
+{
+  background-color:rgb(23,56,61); 
+  color :white
+}
