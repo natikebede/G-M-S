@@ -96,7 +96,7 @@ else
   return (
       <div>
                   
-      <Modals type ="error" text="No Expense found "/>
+      <Modals type ="error" text="No Configuration found "/>
  
   </div>
   )
