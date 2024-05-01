@@ -4,13 +4,19 @@ import { Checkphonenumber, get_today_date, username_validation } from '../functi
 import Modals from '../components/Modals';
 import api from '../Apis/api';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux';
+import { reset_state,set_user } from '../store/Actions';
+import { get_all_employee } from '../functions/admin_functions';
+
 function Add_Cashier_modal({modal_status,Modal_toggle}) {
-   
+  const dispatch= useDispatch();
+  const [employees,setEmployee]= useState();
+  
     const [success_dialog, setsuccess]=useState(false);
     const navigate= useNavigate();
     const [error_dialog ,setdialog]= useState(false);
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));  
     const [Error_text,set_text]=useState("");
     const [user_info, setInfo]= useState({
           fullname:"",
@@ -20,19 +26,38 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
           status:"Active",
           role:"Cashier",
           email:"",
+          employee:"",
           gender:"Female",
           date:get_today_date(),
           id:account?.account_id
 
     });
+    const get_data=()=>{
+      get_all_employee().then((res)=>{
+             
+        setEmployee(res.filter((data)=>{return(data.emp_id!==account.emp_id)}));
+    })
+      console.log(employees);
+    }
   const toggle = () => Modal_toggle();
   useEffect(()=>{
-    if(account==null||undefined)
-    return  navigate("/");
-   
-   
-   
-   },[])
+    const user=localStorage.getItem("g-m-s_account")
+    if(user!=null)
+    {
+      dispatch(set_user(JSON.parse(user)));
+      
+      setAccount(JSON.parse(user))
+      if(account!==null)
+              {
+                get_data();
+              }
+     
+    }
+    else{
+        navigate("/");
+    }
+    
+    },[])
   
   const onHandelChange=(e)=>{
     setInfo( (prev)=>({
@@ -50,6 +75,22 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
             set_text("username is already in use")
           }
         })
+    }
+    else if( e.target.name=="employee")
+    {
+      const [value]=employees.filter((data)=>{ return(data.emp_id==e.target.value)});
+        setInfo( (prev)=>({
+          ...prev,
+          fullname:value.fullname,
+          phonenumber:value.contact_number,
+          password:"123456aaAA$",
+          status:"Active",
+          role:"Cashier",
+          email:"",
+          gender:value.gender,
+          date:get_today_date(),
+          id:account?.account_id
+        }))
     }
    
   }
@@ -78,7 +119,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
               }
               else
               {
-                set_text(response.data.error.detail)
+                set_text(response.data.Message)
               }
             }
             else
@@ -91,6 +132,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
                   username:"",
                   phonenumber:"",
                   email:"",
+                  employee:"",
                   password:"123456aaAA$",
                   status:"Active",
                   role:"Cashier",
@@ -137,15 +179,28 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
               {error_dialog && <Modals type="error" text={Error_text}/>}
               { success_dialog && <Modals type="success" text={Error_text}/>}
               <div className="mb-3 mt-3">
+              <label for="email" className="form-label">Select Employee:</label>
+              <select className="form-select" required value={user_info.employee}  onChange={onHandelChange} name='employee'>
+                  <option value={null}></option>
+                  {employees && employees.map((data,index)=>{
+                      return (
+                        <option key={index} value={data.emp_id}>{data.fullname}</option>
+                      )
+
+                  })}
+                
+                </select>
+            </div>
+              <div className="mb-3 mt-3">
               <label for="email" className="form-label">Full name:</label>
-              <input type="Text" className="form-control" required value={user_info.fullname} onChange={onHandelChange} id="fullname" placeholder="Enter Full Name" name="fullname"/>
+              <input type="Text" className="form-control" disabled="true" required value={user_info.fullname} onChange={onHandelChange} id="fullname" placeholder="Enter Full Name" name="fullname"/>
             </div>
 
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Phonenumber:</label>
               <div class="input-group">
                 <span class="input-group-text fw-bold">+251</span>
-              <input type="tel" className="form-control" required value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
+              <input type="tel" className="form-control" required disabled="true" value={user_info.phonenumber}  onChange={onHandelChange} id="phonenumber" placeholder="" name="phonenumber"/>
               </div>
             </div>
 
@@ -165,7 +220,7 @@ function Add_Cashier_modal({modal_status,Modal_toggle}) {
             <div className="row mb-3 mt-3">
               <div className="col">
               <label for="email" className="form-label">Gender:</label>
-              <select className="form-select" required value={user_info.gender} onChange={onHandelChange} name='gender'>
+              <select className="form-select" disabled="true" required value={user_info.gender} onChange={onHandelChange} name='gender'>
                   <option>Male</option>
                   <option>Female</option>
                 </select>

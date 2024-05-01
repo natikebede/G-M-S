@@ -2,7 +2,7 @@ import React ,{ useEffect ,useState} from 'react'
 import TitleHeader from '../components/TitleHeader'
 import { BarChart } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import SimpleBackdrop from '../components/SimpleBackdrop';
 import AddIcon from '@mui/icons-material/Add';
 import PaidIcon from '@mui/icons-material/Paid';
@@ -10,6 +10,7 @@ import RequestQuoteIcon from '@mui/icons-material/RequestQuote';
 import { RefreshOutlined } from '@mui/icons-material';
 import { get_today_sales_cashier} from '../functions/counts_sales';
 import Modals from '../components/Modals';
+import { reset_state,set_user } from '../store/Actions';
 import { expense_filter, get_monthly_sales_admin, get_sum_expense_monthly, get_sum_expense_today } from '../functions/admin_functions';
 import Admin_detail_cards from '../components/Admin_detail_cards'
 import api from '../Apis/api';
@@ -37,13 +38,13 @@ function Manage_Expense() {
             ...prev,
             [e.target.name]:e.target.value,
         }));}
-    
+  const dispatch= useDispatch();
   const [results,setResults]=useState(null)
   const [error_text, settext] = useState('');
   const [error_type, settype] = useState('success');
   const [error_alert, setAlert] = useState(false);
-    const user= useSelector(state=>state.cashier_reducer.user);
-    const navigate =useNavigate();
+  const [user,setAccount]= useState(useSelector(state=>state.cashier_reducer.user));
+  const navigate =useNavigate();
 
     const handelrefresh=()=>{
       setAlert(false);
@@ -140,19 +141,30 @@ function Manage_Expense() {
         })
     }
     useEffect(()=>{
-      if (user==null){
-        navigate("/")
+      const user=localStorage.getItem("g-m-s_account")
+      if(user!=null)
+      {
+        dispatch(set_user(JSON.parse(user)));
+        
+        setAccount(JSON.parse(user))
+        if(user!==null)
+        {
+          set_detail_cards();
+          get_expense();
+        }
       }
-        set_detail_cards();
-        get_expense();
-    },[])
+      else{
+          navigate("/");
+      }
+      
+      },[user])
+    
   return (
     <div className=' container-fluid p-4'>
-         <div className="mc_title_container row">
-        <div className='col-sm-12'>
+        <div className='top_title_container row p-2'>
         <TitleHeader title="Expense" icon={<BarChart/>}/>
         </div>
-        </div>
+        
         <div className='row px-2 mt-4'>
             <div className='col-sm-12 col-md mx-auto my-2' >
                 <Admin_detail_cards title=" Sales | ETB" today_value={nf.format(gadget.todaySales)} montly_value={nf.format(gadget.monthly_Sales)} Icon={<PaidIcon className='text-success' fontSize='large'/>} time="Today"/>

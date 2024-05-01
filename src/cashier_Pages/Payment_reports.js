@@ -4,29 +4,52 @@ import TitleHeader from '../components/TitleHeader'
 import "../Cashier_page_css/payment_report.css"
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import * as XLSX from 'xlsx'
+import { useNavigate } from 'react-router-dom';
+import { reset_state,set_user } from '../store/Actions';
+import { useSelector,useDispatch } from 'react-redux';
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import Modals from '../components/Modals';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useSelector } from 'react-redux';
 import SimpleBackdrop from '../components/SimpleBackdrop';
 import View_payment_reports from '../components/View_payment_reports';
 import { get_payment_reports_cashier, get_payment_reports_filtered } from '../functions/counts_sales';
-
+import { get_today_date } from '../functions/BookingGenerator';
 
 function Payment_reports() {
-    const account= useSelector(state=>state.cashier_reducer.user);
-    const [result,setResult]= useState(null);
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));   
+     const [result,setResult]= useState(null);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
+    const dispatch= useDispatch();
+    const navigate= useNavigate();
         const[filter_info,setinfo]= useState({
             from_date:null,
             to_date:null,
             type:null,
         });
 
+        useEffect(()=>{
+            const user=localStorage.getItem("g-m-s_account")
+            if(user!==null)
+            {
+              dispatch(set_user(JSON.parse(user)));
+              
+              setAccount(JSON.parse(user))
+              if(account!==null)
+              {
+                set_payment_table()
+              }
+            }
+            else{
+                navigate("/");
+            }
+            
+            },[])
         const set_payment_table =()=>{
-            get_payment_reports_cashier(account.account_id).then((res)=>{
+            const today=get_today_date();
+            get_payment_reports_cashier(account.account_id,today).then((res)=>{
                
                 setResult(res);
             })
@@ -48,6 +71,7 @@ function Payment_reports() {
             }
             else{
                 setResult(null);
+                const today=get_today_date();
                 setdialog(false);
                 get_payment_reports_filtered(filter_info,account.account_id).then((res)=>{
                
@@ -84,10 +108,7 @@ function Payment_reports() {
             XLSX.writeFile(wb,"MyExcel.xlsx")
         
            };
-           useEffect(()=>{
-            set_payment_table();
-            
-           },[])
+           
   return (
     <div className='container-fluid p-4'>
     <div className='row top_title_container'>
@@ -110,11 +131,11 @@ function Payment_reports() {
               
               <div  className='col-sm-12 col-md-3'>
                 <label className='fw-bolder'>From:</label>
-                <input className='form-control' type="date" value={filter_info.from_date}onChange={onhandelChange} name="from_date"/>
+                <input className='form-control' type="date" disabled="true" value={filter_info.from_date}onChange={onhandelChange} name="from_date"/>
               </div>
               <div  className=' col-sm-12 col-md-3'>
                 <label className='fw-bolder'>To :</label>
-                <input className='form-control' type="date" value={filter_info.to_date} onChange={onhandelChange} name="to_date"/>
+                <input className='form-control' type="date" disabled="true"  value={filter_info.to_date} onChange={onhandelChange} name="to_date"/>
               </div>
           
               <div className=' col-sm-12 col-md-3 '>

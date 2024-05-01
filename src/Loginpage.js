@@ -61,6 +61,7 @@ function Loginpage() {
             }else
             {
               localStorage.setItem("token",token);
+              localStorage.setItem("g-m-s_account",JSON.stringify(response.data.data.user))
               navigate("/dashbord");
             }
             // navigate("/dashbord");
@@ -76,6 +77,7 @@ function Loginpage() {
             }else
             {
               localStorage.setItem("token",token);
+              localStorage.setItem("g-m-s_account",JSON.stringify(response.data.data.user))
               navigate("/Admin__dashbord");
             }
             // navigate("/Admin__dashbord");

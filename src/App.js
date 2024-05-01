@@ -22,6 +22,7 @@ import Edit_Employee from './Admin_pages/Edit_Employee.js';
 import Footer from './components/Footer.js';
 import Manage_Expense from './Admin_pages/Manage_Expense.js';
 import AddExpense from './components/AddExpense.js';
+import Membership_configuration from './Admin_pages/Membership_configuration.js';
 function App() {
   return (
 
@@ -49,6 +50,7 @@ function App() {
         <Route path='/Admin/Employe/Edit/:emp_id' element={(<><NavBar NavItem={Admin_NavItem}> <Edit_Employee/>  </NavBar><Footer/> </>)}/>
         <Route path='/Admin/Expense' element={(<><NavBar NavItem={Admin_NavItem}> <Manage_Expense/>  </NavBar><Footer/> </>)}/>
         <Route path='/Admin/Expense/Add' element={(<><NavBar NavItem={Admin_NavItem}> <AddExpense/>  </NavBar><Footer/> </>)}/>
+        <Route path='/Admin/Membership-Configuration' element={(<><NavBar NavItem={Admin_NavItem}> <Membership_configuration/>  </NavBar><Footer/> </>)}/>
 
        
       </Routes>  

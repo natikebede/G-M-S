@@ -4,26 +4,35 @@ import TitleHeader from '../components/TitleHeader'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import Memberships from '../Dummydata/DummyData';
 import moment from 'moment'
+import { reset_state,set_user } from '../store/Actions';
 import Modals from '../components/Modals';
 import { Checkphonenumber, get_today_date} from '../functions/BookingGenerator';
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch} from 'react-redux';
 import api from '../Apis/api';
 import { addDays } from '../functions/counts_sales';
 import { useNavigate } from 'react-router-dom';
 function Add_memebers() {
-  const account= useSelector(state=>state.cashier_reducer.user);
+  const user=localStorage.getItem("g-m-s_account")||null
+  const [account,setAccount]= useState(JSON.parse(user));
   const navigate = useNavigate();
+  const dispatch= useDispatch();
+
   const [success_dialog, setsuccess]=useState(false);
   const [error_dialog ,setdialog]= useState(false);
   const [Error_text,set_text]=useState("");
   useEffect(()=>{
-    if(account==undefined||account==null)
-    {
-        navigate("/");
-    }
-
-
-  },[])
+    const users= localStorage.getItem("g-m-s_account")
+            if(account!=null)
+            {
+              dispatch(set_user(JSON.parse(user)));
+              
+              setAccount(JSON.parse(user))
+              if(account==null)
+              {
+                navigate("/");
+              }
+            }
+            },[])
     const[user_info,setInfo]=useState({
         fullname:"",
         phonenumber:"",

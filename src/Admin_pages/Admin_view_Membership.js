@@ -12,10 +12,17 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { get_all_memebership, get_all_memebership_between } from '../functions/counts_sales';
 import View_Membership_table from '../components/View_Membership_table';
 import SimpleBackdrop from '../components/SimpleBackdrop'
-import Test_Table from '../components/Test_Table';
-function Admin_view_Membership() {const [result,setResult]= useState(null);
+import { useNavigate } from 'react-router-dom';
+import { reset_state,set_user } from '../store/Actions';
+import { useSelector,useDispatch } from 'react-redux';
+function Admin_view_Membership() 
+{const [result,setResult]= useState(null);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
+    const dispatch= useDispatch();
+    const navigate= useNavigate();
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));
         const[filter_info,setinfo]= useState({
             from_date:null,
             to_date:null,
@@ -79,6 +86,7 @@ function Admin_view_Membership() {const [result,setResult]= useState(null);
     
     set_memebership_table();
    },[])
+
   return (
     <div className='container-fluid p-4'>
         <div className='row top_title_container'>

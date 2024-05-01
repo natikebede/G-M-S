@@ -36,7 +36,7 @@ const Admin_NavItem=[
                     icon:<PeopleAltIcon />
                     },
                     {
-                        path:"/Membership-configration",
+                        path:"/Admin/Membership-Configuration",
                         name:"configration",
                         icon:<SettingsSuggestIcon/>
                         },

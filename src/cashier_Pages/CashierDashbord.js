@@ -4,7 +4,8 @@ import PaidIcon from '@mui/icons-material/Paid';
 import TitleHeader from '../components/TitleHeader';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { reset_state,set_user } from '../store/Actions';
+import { useSelector,useDispatch } from 'react-redux';
 import Detail_Cards from '../components/Detail_Cards';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -17,8 +18,10 @@ function CashierDashbord() {
   const [ todaySales,setTodaySell]=useState(0.00);
   const [renewed_today,set_renewed]=useState(0);
   const[joined_today,set_joined]=useState(0);
-  const user= useSelector(state=>state.cashier_reducer.user);
+  const account=localStorage.getItem("g-m-s_account")||null
+  const [user,setAccount]= useState(JSON.parse(account));
   const navigate= useNavigate();
+  const dispatch= useDispatch();
 
   const set_membership=()=>{
     get_all_memebership().then((response)=>{
@@ -63,19 +66,24 @@ function CashierDashbord() {
  }
 
   useEffect(()=>{
-    if(user==undefined||user==null)
-    {
-        navigate("/");
-    }
-    else{
-      
-     set_detail_cards();
-     set_membership ();
-
-  
-    }
-   
-  },[])
+    const users= localStorage.getItem("g-m-s_account")
+            if(user!=null)
+            {
+              dispatch(set_user(JSON.parse(users)));
+              
+              setAccount(JSON.parse(users))
+              if(account!==null)
+              {
+                set_detail_cards();
+                set_membership ();
+              }
+            }
+            else{
+                navigate("/");
+            }
+            
+            },[])
+    
 
 
   return (

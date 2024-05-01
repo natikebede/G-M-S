@@ -3,15 +3,19 @@ import moment from 'moment';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 import TitleHeader from '../components/TitleHeader';
 import Modals from '../components/Modals';
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { reset_state,set_user } from '../store/Actions';
+import { useSelector,useDispatch } from 'react-redux';
 import { Checkphonenumber } from '../functions/BookingGenerator';
 import api from '../Apis/api';
 function Edit_Employee() {
     const [success_dialog, setsuccess]=useState(false);
     const [error_dialog ,setdialog]= useState(false);
     const [Error_text,set_text]=useState("");
+    const navigate= useNavigate();
     const user=useSelector(state=>state.admin_reducer.selected_emp);
-    console.log (user)
+    const user_account=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user_account));
     const [user_info, setInfo]=useState({
       
     fullname:"",
@@ -45,6 +49,10 @@ function Edit_Employee() {
             bank_account:user.bank_account
         })
         }
+        else{
+          navigate("/Hr-Management")
+        }
+       
     
     
     

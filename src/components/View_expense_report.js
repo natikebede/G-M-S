@@ -90,8 +90,6 @@ function View_expense_report({results,refresh,setAlert ,settype,settext }) {
     const options = {
         filterType: 'checkbox',
         pagination:true,
-        
-        responsive:'stacked',
         rowsPerPage:5,
         rowsPerPageOptions:[5,10,15,20],
         rowHover:true,

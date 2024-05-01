@@ -13,12 +13,19 @@ import SimpleBackdrop from '../components/SimpleBackdrop';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import Add_Employe_Modal from './Add_Employe_Modal';
 import { subDays } from '../functions/counts_sales';
+import { useNavigate } from 'react-router-dom';
+import { reset_state,set_user } from '../store/Actions';
+import { useSelector,useDispatch } from 'react-redux';
 function Hr_management() {
     const [Employes,setEmployee]= useState({
         Admins:0,
         Cashiers:0,
         Cleaners:0
     });
+    const dispatch= useDispatch();
+    const navigate= useNavigate();
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user)); 
     const [modal,setModals]=useState(false);
     // for generating payroll
     const Generate_payroll=(list)=>{
@@ -99,11 +106,24 @@ function Hr_management() {
 //  for handling modal toggle
     const Modal_toggle = () => {
         setModals(!modal);}
+        useEffect(()=>{
+            const user=localStorage.getItem("g-m-s_account")
+            if(user!==null)
+            {
+              dispatch(set_user(JSON.parse(user)));
+              
+              setAccount(JSON.parse(user))
+              if(account!==null)
+              {
+                get_data();
+              }
+            }
+            else{
+                navigate("/");
+            }
+            
+            },[])
 
-    useEffect(()=>{
-            get_data();
-
-    },[])
   return (
     <div className='container-fluid p-4'>
         <div className='top_title_container row p-2'>

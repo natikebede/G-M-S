@@ -4,7 +4,8 @@ import PaidIcon from '@mui/icons-material/Paid';
 import TitleHeader from '../components/TitleHeader';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
+import { reset_state,set_user } from '../store/Actions';
 import Admin_detail_cards from '../components/Admin_detail_cards';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
@@ -29,9 +30,10 @@ function AdminDashbord() {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
-  const user= useSelector(state=>state.cashier_reducer.user);
+  const user=localStorage.getItem("g-m-s_account")||null
+  const [account,setAccount]= useState(JSON.parse(user)); 
   const navigate= useNavigate();
-
+  const dispatch= useDispatch();
   const set_membership=()=>{
     get_all_memebership().then((response)=>{
 
@@ -60,7 +62,7 @@ function AdminDashbord() {
   }
   const[warning_count,setWarning]=useState(set_warning())
  const set_detail_cards=()=>{
-    get_today_sales_cashier(user.account_id,"Default",user.role).then((res)=>{
+    get_today_sales_cashier(account.account_id,"Default",account.role).then((res)=>{
         setGadget((prev)=>(
           {
             ...prev,
@@ -68,7 +70,7 @@ function AdminDashbord() {
           }
         ))
     })
-    get_today_sales_cashier(user.account_id,"Renewal",user.role).then((res)=>{
+    get_today_sales_cashier(account.account_id,"Renewal",account.role).then((res)=>{
       setGadget((prev)=>(
         {
           ...prev,
@@ -76,7 +78,7 @@ function AdminDashbord() {
         }
       ))
     })
-    get_today_sales_cashier(user.account_id,"registration",user.role).then((res)=>{
+    get_today_sales_cashier(account.account_id,"registration",account.role).then((res)=>{
       setGadget((prev)=>(
         {
           ...prev,
@@ -112,21 +114,26 @@ function AdminDashbord() {
   })
  
  }
-
-  useEffect(()=>{
-    if(user==undefined||user==null)
+ useEffect(()=>{
+  const user=localStorage.getItem("g-m-s_account")
+  if(user!==null)
+  {
+    dispatch(set_user(JSON.parse(user)));
+    
+    setAccount(JSON.parse(user))
+    if(account!==null)
     {
-        navigate("/");
+      set_detail_cards();
+      set_membership ();
+ 
     }
-    else{
-      
-     set_detail_cards();
-     set_membership ();
-
+  }
+  else{
+      navigate("/");
+  }
   
-    }
-   
   },[])
+
 
 
   return (

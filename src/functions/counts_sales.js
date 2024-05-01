@@ -137,8 +137,8 @@ export const get_today_sales_cashier=async(id,type,role="Cashier")=>
 
   // get all payments_reports for specfic cashier
 
-  export const get_payment_reports_cashier = async (account_id)=>{
-    const response =await api.get(`/Payments/Get-ALL/${account_id}`);
+  export const get_payment_reports_cashier = async (account_id,today)=>{
+    const response =await api.get(`/Payments/Get-ALL/${account_id}/${today}`);
    
     if(response.data.status=="success"){
         return response.data.data
@@ -151,9 +151,10 @@ export const get_today_sales_cashier=async(id,type,role="Cashier")=>
 
   //generate report based on filter parametrs fro the cashier
 
-  export const get_payment_reports_filtered = async (filter_info,account_id)=>{
+  export const get_payment_reports_filtered = async (filter_info,account_id,today)=>{
     const response =await api.post(`/Payments/Get-ALL/filterd/${account_id}`,{
-        filter_info
+        filter_info,
+        today
     });
    
     if(response.data.status=="success"){

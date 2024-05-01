@@ -1,24 +1,34 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import "./TitleHeader.css"
 import { useDispatch, useSelector } from 'react-redux'
-import { reset_state } from '../store/Actions';
+import { reset_state,set_user } from '../store/Actions';
 import SettingsPowerIcon from '@mui/icons-material/SettingsPower';
 import { useNavigate } from 'react-router-dom';
+
 function TitleHeader({title,icon}) {
-  const user= useSelector(state=>state.cashier_reducer.user);
+  const user=localStorage.getItem("g-m-s_account")||null
+  const [account,setAccount]= useState(JSON.parse(user));  
   const dispatch= useDispatch();
   const navigate= useNavigate();
   useEffect(()=>{
-   if(user==null||undefined)
-   return  navigate("/");
-  
-  
-  
-  },[])
+    const user=localStorage.getItem("g-m-s_account")
+    if(user!==null)
+    {
+      dispatch(set_user(JSON.parse(user)));
+      
+      setAccount(JSON.parse(user))
+      
+    }
+    else{
+        navigate("/");
+    }
+    
+    },[])
   const logout=()=>
   {
     localStorage.removeItem("token");
+    localStorage.removeItem("g-m-s_account");
     dispatch(reset_state());
   navigate("/");
 
@@ -33,7 +43,7 @@ function TitleHeader({title,icon}) {
         
         <div>
         <h6>Welcome Back !</h6> 
-              <h5>{user?.username} <SettingsPowerIcon className='sign_out'onClick={logout}/></h5>
+              <h5>{account?.username} <SettingsPowerIcon className='sign_out'onClick={logout}/></h5>
         </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import React ,{useState}from 'react'
+import React ,{useState,useEffect}from 'react'
 import TitleHeader from '../components/TitleHeader'
 import moment from 'moment'
 import Modals from '../components/Modals';
@@ -9,19 +9,35 @@ import { Checkphonenumber, convert_to_date, get_today_date} from '../functions/B
 import { subDays,addDays } from '../functions/counts_sales';
 import CachedIcon from '@mui/icons-material/Cached';
 import api from '../Apis/api';
+import { useNavigate } from 'react-router-dom';
+
 function Memebership_renewal() {
   
     const Memeber= useSelector(state=>state.cashier_reducer.selected_memeber);
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));
     const[user_info,setInfo]=useState(Memeber);
+    const navigate= useNavigate();
+    useEffect(()=>{
+   
+      if(Memeber==null)
+      {     
+       
+        if(account.role=="Cashier")
+         { navigate("/view-memebership")}
+        else if(account.role=="Admin")
+       { navigate("/Admin/view-memebership")}
+      }
+
+    },[])
     const[selected_data,set_selected_data]=useState({
-      selected_memebership:Memberships.filter((memebership)=>memebership.type==Memeber.memebership_type),
-      Memembership:Memeber.memebership_type,
+      selected_memebership:Memberships.filter((memebership)=>memebership.type==Memeber?.memebership_type),
+      Memembership:Memeber?.memebership_type,
       month:null,
       selected_month:null,
       end_date:"",
       date:get_today_date(),
-      start_date: subDays(Memeber.end_date)<=1? convert_to_date(get_today_date()):moment(Memeber.end_date).format('YYYY-MM-DD'),
+      start_date: subDays(Memeber?.end_date)<=1? convert_to_date(get_today_date()):moment(Memeber?.end_date).format('YYYY-MM-DD'),
    
      
     })
@@ -294,24 +310,24 @@ function Memebership_renewal() {
               </div>
                     <div className="mb-3 mt-3">
               <label for="email" className="form-label">Full name:</label>
-              <input disabled={edit_data}  type="Text" className="form-control" required value={user_info.fullname} onChange={onHandelChange_profile} id="fullname" placeholder="Enter Full Name" name="fullname"/>
+              <input disabled={edit_data}  type="Text" className="form-control" required value={user_info?.fullname} onChange={onHandelChange_profile} id="fullname" placeholder="Enter Full Name" name="fullname"/>
             </div>
 
             <div className="mb-3 mt-3">
               <label for="email" className="form-label">Phonenumber:</label>
               <div class="input-group">
                 <span class="input-group-text fw-bold">+251</span>
-              <input disabled={edit_data} type="tel" className="form-control" required value={user_info.contact_number} onChange={onHandelChange_profile} id="phonenumber" placeholder="+251" name="contact_number"/>
+              <input disabled={edit_data} type="tel" className="form-control" required value={user_info?.contact_number} onChange={onHandelChange_profile} id="phonenumber" placeholder="+251" name="contact_number"/>
               </div>
             </div>
              <div className="row mb-3 mt-3">
              <div className="col">
               <label for="email" className="form-label">Weight:</label>
-              <input disabled={edit_data} type="text" className="form-control" required value={user_info.weight} onChange={onHandelChange_profile} id="phonenumber" placeholder="62.3Kg" name="weight"/>
+              <input disabled={edit_data} type="text" className="form-control" required value={user_info?.weight} onChange={onHandelChange_profile} id="phonenumber" placeholder="62.3Kg" name="weight"/>
             </div> 
             <div className="col">
               <label for="email" className="form-label">Gender:</label>
-              <select disabled={edit_data} className="form-select" required value={user_info.gender} onChange={onHandelChange_profile} name='gender'>
+              <select disabled={edit_data} className="form-select" required value={user_info?.gender} onChange={onHandelChange_profile} name='gender'>
                   <option>Male</option>
                   <option>Female</option>
                 </select>
@@ -322,12 +338,12 @@ function Memebership_renewal() {
             <div className="row mb-3 mt-3">
             <div className="col">
               <label for="email" className="form-label">Age:</label>
-              <input disabled={edit_data} type="number" className="form-control" required value={user_info.age} onChange={onHandelChange_profile} id="phonenumber" placeholder="12" name="age" min={12} max={78}/>
+              <input disabled={edit_data} type="number" className="form-control" required value={user_info?.age} onChange={onHandelChange_profile} id="phonenumber" placeholder="12" name="age" min={12} max={78}/>
               </div>
 
               <div className="col">
               <label for="email" className="form-label">Status:</label>
-              <select className="form-select" required value={user_info.status} onChange={onHandelChange_profile} name='status'>
+              <select className="form-select" required value={user_info?.status} onChange={onHandelChange_profile} name='status'>
                   <option value="Active">Active</option>
                   <option value="Deactivated">Deactivated</option>
                 </select>

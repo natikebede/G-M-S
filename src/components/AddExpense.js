@@ -1,17 +1,18 @@
-import { Description } from '@mui/icons-material'
 import React, { useEffect, useState } from 'react'
 import { add_catagory, get_expense_catagory_list } from '../functions/admin_functions';
 import Modals from './Modals';
 import Add_Catagory_modal from './Add_Catagory_modal';
 import api from '../Apis/api';
+import { reset_state,set_user } from '../store/Actions';
 import { useNavigate } from 'react-router-dom';
-import {useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import TitleHeader from './TitleHeader';
 import { BarChart } from '@mui/icons-material';
 import { get_today_date } from '../functions/BookingGenerator';
 
 function AddExpense() {
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const user=localStorage.getItem("g-m-s_account")
+    const [account,setAccount]= useState(user);
     const [expense_data,setData]=useState({
             description:"",
             amount:0,
@@ -22,8 +23,10 @@ function AddExpense() {
             account_id:account.account_id,
             date:get_today_date(),
     });
+    
     const [error_text, settext] = useState('');
     const [modal_status,setModal]=useState(false);
+  const dispatch= useDispatch();
   const [error_type, settype] = useState('success');
   const [error_alert, setAlert] = useState(false);
     const [catagory_data,setCatagory]= useState(null);
@@ -110,12 +113,25 @@ function AddExpense() {
           ...prev,
           [e.target.name]:e.target.value
         }))}
+
         useEffect(()=>{
-            if(account==null){
-                navigate("/")
+            const user=localStorage.getItem("g-m-s_account")
+            if(user!=null)
+            {
+              dispatch(set_user(JSON.parse(user)));
+              
+              setAccount(JSON.parse(user))
+              if(account!==null)
+              {
+                load_data()
+              }
             }
-            load_data()
-        },[])
+            else{
+                navigate("/");
+            }
+            
+            },[])
+     
   return (
     <div className='container-fluid rounded bg-white p-4 px-4'>
            <div className="mc_title_container row">

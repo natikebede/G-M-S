@@ -14,9 +14,7 @@ function Test_Table({results}) {
     const dispatch= useDispatch()
        //navigate to the edit page
    const handelEdit=(id)=>{
-       const [user]=results.filter((res)=>res.emp_id==id)
-       dispatch(select_employee(user))
-           navigate(`/Admin/Employe/Edit/${id}`)
+       
            
          }
     const nf = new Intl.NumberFormat('en-US', {
@@ -29,17 +27,17 @@ function Test_Table({results}) {
     const handelDelete=()=>{}
     const columns = [
        
-        {label:"Name",name:"fullname"},
-        {label:"Phonenumber",name:"contact_number"},
-        {label:"Gender",name:"gender"},
-        {label:"Position",name:"position"},
-        {label:"Start date",name:"start_date",
-            options:{
-                customBodyRender:(value)=>(
-                    moment(value ).format('YYYY-MM-DD')
-                ) }
-        },
-        {label:"Salary",name:"sallery",options:{
+        {label:"Description",name:"reason"},
+        {label:"Catagory",name:"catagory"},
+        {label:"Date",name:"date",
+        options:{
+            customBodyRender:(value)=>(
+                moment(value ).format('YYYY-MM-DD')
+            ) }
+    },
+        {label:"Type",name:"expense_type"},
+      
+        {label:"Amount",name:"amount",options:{
             customBodyRender:(value,tableMeta)=>{
                 return(
                     <span className="bg-success text-light p-2 rounded fw-bold">{nf.format(value)} </span>
@@ -48,7 +46,7 @@ function Test_Table({results}) {
     }},
     
         
-        {label:"Bank Account",name:"bank_account",options:{
+        {label:"User",name:"username",options:{
             customBodyRender:(value,tableMeta)=>{
                 return(
                     <span className="fw-bold">{value} </span>
@@ -57,15 +55,8 @@ function Test_Table({results}) {
     }
      },
 
-    {label:"Status",name:"status" ,options:{
-        customBodyRender:(value)=>(
-            value=='Active'?
-            <span className='bg-success  text-white p-2 rounded fw-bold'> Active </span>:
-            <span className='bg-danger text-white p-2 rounded fw-bold'> Inactive </span>
-            
-        )
-    }},
-        {label:"Action",name:"emp_id", options:{
+
+        {label:"Action",name:"expense_id", options:{
                 customBodyRender:(value)=>(
                     <SaveAsIcon  className='print_icon ' onClick={()=>handelEdit(value)} />
                 )

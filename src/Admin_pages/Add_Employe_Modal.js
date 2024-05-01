@@ -3,21 +3,33 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Checkphonenumber, convert_to_date, get_today_date, username_validation } from '../functions/BookingGenerator';
 import Modals from '../components/Modals';
 import api from '../Apis/api';
-import { useSelector } from 'react-redux'
+import { reset_state,set_user } from '../store/Actions';
+
+import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 function Add_Employe_Modal({modal_status,Modal_toggle}) {
     const [success_dialog, setsuccess]=useState(false);
     const [error_dialog ,setdialog]= useState(false);
     const navigate= useNavigate();
     const [Error_text,set_text]=useState("");
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const dispatch= useDispatch();
+
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user)); 
     useEffect(()=>{
-        if(account==null||undefined)
-        return  navigate("/");
-       
-       
-       
-       },[])
+      const user=localStorage.getItem("g-m-s_account")
+      if(user!==null)
+      {
+        dispatch(set_user(JSON.parse(user)));
+        
+        setAccount(JSON.parse(user))
+        
+      }
+      else{
+          navigate("/");
+      }
+      
+      },[])
     const [user_info, setInfo]= useState({
 
         fullname:"",

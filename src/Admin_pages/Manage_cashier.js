@@ -8,8 +8,9 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import { get_all_users } from '../functions/admin_functions';
 import SimpleBackdrop from '../components/SimpleBackdrop'
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import * as XLSX from 'xlsx'
+import { reset_state,set_user } from '../store/Actions';
 import {  useNavigate } from 'react-router-dom';
 import Test_Table from '../components/Test_Table';
 
@@ -17,19 +18,29 @@ function Manage_cashier() {
     const [modal, setModals] = useState(false);
     const navigate= useNavigate();
     const [users,setUsers]=useState([]);
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const dispatch= useDispatch();
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));  
     useEffect(()=>{
-//    
-    if(account!==null)
-    {
-        get_all_users().then((res)=>{
-            setUsers(res.data);
-        })
-}
-else{
-    navigate("/")
-}
-    },[])
+        const user=localStorage.getItem("g-m-s_account")
+        if(user!==null)
+        {
+          dispatch(set_user(JSON.parse(user)));
+          
+          setAccount(JSON.parse(user))
+          if(account!==null)
+          {
+            get_all_users().then((res)=>{
+                setUsers(res.data);
+            })
+          }
+        }
+        else{
+            navigate("/");
+        }
+        
+        },[])
+
     const handelrefresh=()=>{
         setUsers(null);
         get_all_users().then((res)=>{
@@ -51,12 +62,11 @@ else{
         }
   return (
     <div className='container-fluid p-4'>
-        <div className="mc_title_container row">
-        <div className='col-sm-12'>
+           <div className='top_title_container row p-2'>
         <TitleHeader  title="Manage Cashiers " icon={<PersonAddAltIcon/>}/> 
         </div>
         
-        </div>
+       
         
         <div className='contianer-fluid p-1 my-3'>
                 <div className='cv_searchbar_container row'>
