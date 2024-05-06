@@ -23,6 +23,7 @@ import Footer from './components/Footer.js';
 import Manage_Expense from './Admin_pages/Manage_Expense.js';
 import AddExpense from './components/AddExpense.js';
 import Membership_configuration from './Admin_pages/Membership_configuration.js';
+import Test_new from './cashier_Pages/Test_new.js';
 function App() {
   return (
 
@@ -34,6 +35,7 @@ function App() {
         <Route path='/Add-memeber' element={(<><NavBar NavItem={NavItem}><Add_memebers/> </NavBar><Footer/> </>)}/>
         <Route path='/view-memebership' element={(<><NavBar NavItem={NavItem}><View_memebership/> </NavBar><Footer/> </>)}/>
         <Route path='/Memebership/renewal/:name/:id' element={(<><NavBar NavItem={NavItem}> <Memebership_renewal/>  </NavBar><Footer/> </>)}/>
+
         <Route path='/Payment-reports' element={(<><NavBar NavItem={NavItem}> <Payment_reports/>   </NavBar><Footer/> </>)}/>
        
        

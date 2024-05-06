@@ -4,45 +4,77 @@ import Modals from '../components/Modals';
 import * as XLSX from 'xlsx'
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux'
+import Import_View from './Import_View';
+import api from '../Apis/api';
+import { RssFeed } from '@mui/icons-material';
 function Import_Modal({modal_status,Modal_toggle}) {
    
     const [success_dialog, setsuccess]=useState(false);
     const navigate= useNavigate();
     const [error_dialog ,setdialog]= useState(false);
-    const account= useSelector(state=>state.cashier_reducer.user);
+    const user=localStorage.getItem("g-m-s_account")||null
+    const [account,setAccount]= useState(JSON.parse(user));
     const [Error_text,set_text]=useState("");
     const [data, setData] =useState([]);
-  const toggle = () => Modal_toggle();
+  const toggle = () => {
+    Modal_toggle()
+    setData([]);
+    setsuccess(false);
+  
+  };
   useEffect(()=>{
     if(account==null||undefined)
     return  navigate("/");
    },[])
   
-  const onHandelChange=(e)=>{
-    const reader = new FileReader();
-    reader.readAsBinaryString(e.target.files[0]);
-    reader.onload = (e) => {
-    const data = e.target.result;
-    const workbook = XLSX.read(data, { type: "binary" });
-    const sheetName = workbook.SheetNames[0];
-    const sheet = workbook.Sheets [sheetName];
-    const parsedData = XLSX.utils.sheet_to_json(sheet);
-    setData(parsedData);
-   console.log("here is",data)
-  }}
+  const onHandelChange=async(e)=>{
+    const file = e.target.files[0];
+    const data = await file.arrayBuffer();
+    /* data is an ArrayBuffer */
+    const workbook = XLSX.read(data);
+    const wsname = workbook.SheetNames[0];
+    const ws = workbook.Sheets[wsname];
+
+    /* Convert array to json*/
+    const dataParse = XLSX.utils.sheet_to_json(ws, {
+      header: 1,
+      defval: "",
+  });
+
+    setData(dataParse)
+  }
   const onSubmits= async(e)=>
   { e.preventDefault();
    
-    
+    const new_data= data.filter((data,index)=>(index!==0));
+    console.log(new_data);
 
+    try {
+      const response= await api.post(`/Admin/Upload-membership/excel/${account.account_id}`,{
+        new_data
+      })
+      if(response.data.status=="success")
+      {
+        setsuccess(true);
+        set_text("Members imported successfully")
+      }
+      else{
+        setdialog(true);
+        setsuccess(false);
+        set_text(response.data.error)
+      }
+      console.log(response);
+    } catch (error) {
+      alert ("error !!!! ",error)
+    }
 
   }
   return (
     <div className='container-fluid '>
       <div className='row'>
         <div className='col-sm-12'>
-        <Modal isOpen={modal_status} className='modal_color' size="xl" toggle={toggle} >
-        <ModalHeader  className='modal_color' toggle={toggle}>cashier / Admin registration</ModalHeader>
+        <Modal isOpen={modal_status} className='modal_color rounded' size="xl" toggle={toggle} >
+        <ModalHeader  className='modal_color' toggle={toggle}>Import Membership</ModalHeader>
         <ModalBody className='modal_color'>
           <form onSubmit={onSubmits}>
           <div className='container-fluid p-2'>
@@ -68,6 +100,9 @@ function Import_Modal({modal_status,Modal_toggle}) {
             </div> 
           
           </form>
+          <>
+          <Import_View  result={data}/>
+          </>
         </ModalBody>
         <ModalFooter className='modal_color'>
          

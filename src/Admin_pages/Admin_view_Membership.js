@@ -123,13 +123,13 @@ function Admin_view_Membership()
                   </div>
                   </form>
                 <div className='col-sm-4 d-flex justify-content-around  '>
-                 <div  className=' d-flex flex-wrap align-content-center  '>
+                 <div  className=' d-flex flex-wrap align-content-center p-2  '>
                  <button className='refresh_button flex-shrink-1 'onClick={handelrefresh}><RefreshIcon/> Refresh  </button>
                 </div> 
-                <div  className=' d-flex flex-wrap align-content-center  '>
+                <div  className=' d-flex flex-wrap align-content-center p-2 '>
                  <button className=' flex-shrink-1 btn btn-success 'onClick={Modal_toggle}> <ImportExportIcon/> Import  </button>
                 </div> 
-                <div className=' d-flex flex-wrap align-content-center  '>
+                <div className=' d-flex flex-wrap align-content-center p-2 '>
                 <button className='export_button flex-shrink-1' onClick={handlonExport} >  <ImportExportIcon/> Export</button>
                 </div> 
                 </div>

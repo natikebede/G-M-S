@@ -44,7 +44,7 @@ function View_Membership_table({result}) {
               moment(value ).format('YYYY-MM-DD')
           )
   }},
-      {label:"Membership type",name:"memebership_type"},
+      {label:"Membership type",name:"type_name"},
       {label:"Start date",name:"start_date",
       options:{
           customBodyRender:(value)=>(
@@ -67,6 +67,7 @@ function View_Membership_table({result}) {
               
           )
       }},
+      {label:"Created by",name:"username"},
       {label:"Days Left",name:"end_date",options:{
           customBodyRender:(value,tableMeta)=>{
               const days_left=subDays(value);
